@@ -26,7 +26,7 @@ def register(request):
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(
-            user_form.cleaned_data['password'])
+                user_form.cleaned_data['password'])
             new_user.save()
             return render(request,
                 'account/register_done.html',

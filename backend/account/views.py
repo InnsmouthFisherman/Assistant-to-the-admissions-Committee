@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from rest_framework_swagger.views import get_swagger_view   
 from .forms import LoginForm, UserRegistrationForm
+from rest_framework import generics
 
 def user_login(request):
     if request.method == 'POST':

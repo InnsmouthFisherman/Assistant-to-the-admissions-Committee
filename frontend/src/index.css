@@ -1,14 +1,13 @@
-
- * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- }
- body {
+}
+body {
   font-family: "Roboto", sans-serif;
- }
- 
- .roboto-regular {
+}
+
+.roboto-regular {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -38,8 +37,8 @@ input {
 }
 
 main {
-  background: #F1F5FE;
-  height: 100VH;
+  background: #f1f5fe;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,7 +48,7 @@ main {
 .register-form-container {
   max-width: 415px;
   width: 100%;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 50px rgba(217, 229, 225, 0.7);
   border-radius: 20px;
   padding-left: 30px;
@@ -59,7 +58,7 @@ main {
 }
 
 .form-title {
-  color: #30507D;
+  color: #30507d;
   font-weight: 500;
   font-size: 20px;
   line-height: 23px;
@@ -69,7 +68,3 @@ main {
 .form-field {
   margin-bottom: 13px;
 }
-
-
-
-

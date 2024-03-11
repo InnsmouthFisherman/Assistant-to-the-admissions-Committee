@@ -9,7 +9,13 @@ fake_applicants = {}
 
 @app.post("/add_applicant")
 def add_applicant(applicant: Applicant):
-    fake_applicants[applicant.name] = [applicant.points, applicant.snils]
+    fake_applicants[applicant.name + ' ' + applicant.last_name + ' ' + applicant.lastlast_name] = [applicant.points,
+                                                                                                applicant.snils,
+                                                                                                applicant.city,
+                                                                                                applicant.region,
+                                                                                                applicant.street,
+                                                                                                applicant.inn,
+                                                                                                applicant.school]
     return {"status": 200}
 
 

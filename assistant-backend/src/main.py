@@ -1,29 +1,20 @@
 from fastapi import FastAPI
 import uvicorn
+from analytics import analytics
 
 app = FastAPI()
 
 fake_applicants = {}
 
 
-'''
-
-@app.post("/add_applicant")
-def add_applicant(applicant: Applicant):
-    fake_applicants[applicant.name + ' ' + applicant.last_name + ' ' + applicant.lastlast_name] = [applicant.points,
-                                                                                                applicant.snils,
-                                                                                                applicant.city,
-                                                                                                applicant.region,
-                                                                                                applicant.street,
-                                                                                                applicant.inn,
-                                                                                                applicant.school ]
-    return {"status": 200}
-
-'''
-
 @app.get("/applicants")
 def get_applicants():
     return fake_applicants
+
+
+@app.post("/analytics")
+def get_analysis():
+    return analytics.result()
 
 
 if __name__ == "__main__":

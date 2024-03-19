@@ -1,20 +1,10 @@
 from fastapi import FastAPI
 import uvicorn
-from analytics import analytics
+from analytics import router
 
 app = FastAPI()
 
-fake_applicants = {}
-
-
-@app.get("/applicants")
-def get_applicants():
-    return fake_applicants
-
-
-@app.post("/analytics")
-def get_analysis():
-    return analytics.result()
+app.include_router(router.router)
 
 
 if __name__ == "__main__":

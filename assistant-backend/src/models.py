@@ -5,12 +5,6 @@ metadata = MetaData()
 
 # в будущем надо создать классы для полей таблиц, чтобы их можно было легко валидировать
 
-
-#class User(BaseModel): password = postgres
-#    id: int
-#    name: str
-#    age: int
-
 users = Table(
     "applicant",
     metadata,

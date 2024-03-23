@@ -8,12 +8,6 @@ import Button from "@mui/material/Button";
 const url = "http://127.0.0.1:5000/add_applicant ";
 
 export default function Registration() {
-  const [id, setId] = useState(null);
-  const [name, setName] = useState("");
-  const [surName, setSurName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(null);
-
   const handleSubmit = () => {
     axios.post(url, { id, name, surName, email, password });
   };
@@ -87,7 +81,12 @@ export default function Registration() {
           fullWidth
         />
 
-        <Button onClick={handleSubmit} variant="contained" fullWidth>
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          fullWidth
+          style={{ marginTop: 20 }}
+        >
           Регистрация
         </Button>
       </Box>

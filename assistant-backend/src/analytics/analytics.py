@@ -5,13 +5,14 @@ import re
 from datetime import datetime
 import math
 
+data = pd.read_excel \
+        (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", skiprows=2, sheet_name="Персоны", index_col=0, na_values="None" )
+data2 = pd.read_excel \
+    (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx",
+     sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
+
 
 def result():
-    ##Загрузка данных
-    data = pd.read_excel \
-        (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", skiprows=2, sheet_name="Персоны", index_col=0, na_values="None" )
-    data2 = pd.read_excel \
-        (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
     data2.set_index("№", inplace=True)
 
     ##Исправление формата столбцов
@@ -84,12 +85,9 @@ def result():
 
     return results_dict
 
+
 def students_85_plus():
     ##Загрузка данных
-    data = pd.read_excel \
-        (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", sheet_name="Персоны", index_col=0, na_values="None" )
-    data2 = pd.read_excel \
-        (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True)
     data2.set_index("№", inplace=True)
 
     ##Исправление формата столбцов
@@ -115,6 +113,6 @@ def students_85_plus():
         else:
             boolean_list.append(False)
 
-    result_df = data2.loc[boolean_list]
+    result_df = data2.loc[boolean_list].fillna("-")
     result = result_df.to_dict(orient='records')
     return result

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .analytics import *
+from .analytics import result, students_85_plus
 
 router = APIRouter(
     prefix="/analytics",

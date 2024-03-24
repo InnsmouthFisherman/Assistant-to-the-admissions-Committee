@@ -2,16 +2,17 @@ import pandas as pd
 import numpy as np
 from collections import Counter
 import re
+import os
 from datetime import datetime
 import math
-import os
 
-data = pd.read_excel \
-        (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", skiprows=2, sheet_name="Персоны", index_col=0, na_values="None" )
-data2 = pd.read_excel \
-    (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Магистратура ВШЦТ.xlsx",
-     sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
-
+data = pd.read_excel(os.getcwd() +
+    r"\tables\Бакалавриат ВШЦТ.xlsx",
+    sheet_name="Персоны", skiprows=2, index_col=0, na_values="None")
+data2 = pd.read_excel(
+    os.getcwd() +
+    r"\tables\Бакалавриат ВШЦТ.xlsx",
+    sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
 
 def result():
     data2.set_index("№", inplace=True)
@@ -23,8 +24,9 @@ def result():
 
     # Массив данных даты рождения(возраста)
     now_date = datetime.now()
-    table_dates_birtday= data["Дата рождения"]
-    result_dates_birtday = [int(math.floor((now_date - current_date).days / 365.25)) for current_date in table_dates_birtday]
+    table_dates_birtday = data["Дата рождения"]
+    result_dates_birtday = [int(math.floor((now_date - current_date).days / 365.25)) for current_date in
+                            table_dates_birtday]
     counter_ages = Counter(result_dates_birtday)
     # sort_counter_ages = sorted(counter_ages.items(), key = lambda x: x[0])
 
@@ -39,7 +41,7 @@ def result():
                 result_city.append(*sub_city)
 
     counter_city = Counter(result_city)
-    sort_counter_city = sorted(counter_city.items(), key = lambda x: x[1], reverse=True)
+    sort_counter_city = sorted(counter_city.items(), key=lambda x: x[1], reverse=True)
 
     # Школы Тюмени (документ об образовании)
     documents = data["Законченное образ. учреждение (осн. док.)"]
@@ -57,7 +59,7 @@ def result():
             school = document
         result_schools.append(school)
     counter_schools = Counter(result_schools)
-    counter_schools = sorted(counter_schools.items(), key = lambda x: (x[1], x[0]), reverse=True)
+    counter_schools = sorted(counter_schools.items(), key=lambda x: (x[1], x[0]), reverse=True)
 
     # средний балл по егэ
     mean_point_ege = data2["Средний балл ЕГЭ"].values
@@ -83,12 +85,10 @@ def result():
         "points_key": points
     }
 
-
     return results_dict
 
 
 def students_85_plus():
-    ##Загрузка данных
     data2.set_index("№", inplace=True)
 
     ##Исправление формата столбцов
@@ -114,8 +114,6 @@ def students_85_plus():
         else:
             boolean_list.append(False)
 
-    result_df = data2.loc[boolean_list].fillna("-")
+    result_df = data2.loc[boolean_list]
     result = result_df.to_dict(orient='records')
     return result
-
-print(students_85_plus())

@@ -1,6 +1,7 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import React from "react";
 import axios from "axios";
+import { Link, Router, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Typography, Box, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -11,6 +12,7 @@ export default function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const resp = await axios.post(url, {
@@ -21,7 +23,7 @@ export default function Registration() {
       is_verified: false,
       username,
     });
-    console.log();
+    navigate("/analysis");
   };
 
   // axios({

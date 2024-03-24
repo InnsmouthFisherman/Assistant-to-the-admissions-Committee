@@ -7,11 +7,11 @@ from datetime import datetime
 import math
 
 data = pd.read_excel(os.getcwd() +
-    r"\tables\Бакалавриат ВШЦТ.xlsx",
+    r"\src\analytics\tables\Бакалавриат ВШЦТ.xlsx",
     sheet_name="Персоны", skiprows=2, index_col=0, na_values="None")
 data2 = pd.read_excel(
     os.getcwd() +
-    r"\tables\Бакалавриат ВШЦТ.xlsx",
+    r"\src\analytics\tables\Бакалавриат ВШЦТ.xlsx",
     sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
 
 def result():

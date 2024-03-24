@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Typography, Box, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 
-const url = "http://127.0.0.1:5000/authe/register ";
+const url = "http://127.0.0.1:5000/auth/register ";
 
 export default function Registration() {
   const [email, setEmail] = useState("");

@@ -6,9 +6,9 @@ from datetime import datetime
 import math
 
 data = pd.read_excel \
-        (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", skiprows=2, sheet_name="Персоны", index_col=0, na_values="None" )
+        (r"C:\Users\sokma\OneDrive\Документы\github\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", skiprows=2, sheet_name="Персоны", index_col=0, na_values="None" )
 data2 = pd.read_excel \
-    (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx",
+    (r"C:\Users\sokma\OneDrive\Документы\github\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Магистратура ВШЦТ.xlsx",
      sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
 
 

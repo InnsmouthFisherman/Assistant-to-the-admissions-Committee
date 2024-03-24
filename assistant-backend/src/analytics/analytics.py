@@ -4,11 +4,12 @@ from collections import Counter
 import re
 from datetime import datetime
 import math
+import os
 
 data = pd.read_excel \
-        (r"C:\Users\sokma\OneDrive\Документы\github\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", skiprows=2, sheet_name="Персоны", index_col=0, na_values="None" )
+        (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", skiprows=2, sheet_name="Персоны", index_col=0, na_values="None" )
 data2 = pd.read_excel \
-    (r"C:\Users\sokma\OneDrive\Документы\github\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Магистратура ВШЦТ.xlsx",
+    (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Магистратура ВШЦТ.xlsx",
      sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
 
 
@@ -116,3 +117,5 @@ def students_85_plus():
     result_df = data2.loc[boolean_list].fillna("-")
     result = result_df.to_dict(orient='records')
     return result
+
+print(students_85_plus())

@@ -4,6 +4,10 @@ from collections import Counter
 import re
 from datetime import datetime
 import math
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 data = pd.read_excel \
         (r"C:\Users\User\Documents\GitHub\Assistant-to-the-admissions-Committee\assistant-backend\src\analytics\tables\Бакалавриат ВШЦТ.xlsx", skiprows=2, sheet_name="Персоны", index_col=0, na_values="None" )
@@ -116,3 +120,56 @@ def students_85_plus():
     result_df = data2.loc[boolean_list].fillna("-")
     result = result_df.to_dict(orient='records')
     return result
+
+
+def clusters_of_students():
+    def convert_ages(age):
+        now_date = datetime.now()
+        result = int(math.floor((now_date - age).days / 365.25))
+        return result
+
+    #Загрузка нужных колонн
+    new_data = data2[["Пол", "Дата рождения", 
+                    "Ср. балл док-та об образовании",
+                    "Вид возмещения затрат", "Форма обучения",
+                    "Сумма баллов", "Средний балл ЕГЭ"]].drop_duplicates()
+
+    #Обработка и подготовка данных
+    new_data["Сумма баллов"] = new_data["Сумма баллов"].fillna(0)
+    new_data["Средний балл ЕГЭ"] = new_data["Средний балл ЕГЭ"].fillna("0")
+
+    encoding = pd.get_dummies(new_data[["Пол", "Вид возмещения затрат", "Форма обучения"]], dtype=int)
+    new_data = pd.concat([new_data, encoding], axis=1)
+    new_data["Средний балл ЕГЭ"] = new_data["Средний балл ЕГЭ"].apply(lambda x: float(".".join(x.split(','))))
+    new_data.drop(columns=["Пол", "Вид возмещения затрат", "Форма обучения"], axis=1, inplace=True)
+
+    new_data["Дата рождения"] = new_data["Дата рождения"].astype("datetime64[ns]")
+    new_data["Дата рождения"] = new_data["Дата рождения"].apply(convert_ages)
+
+    #Обучение
+    scaler = StandardScaler()
+    scaled_data = scaler.fit_transform(new_data)
+    scaled_data_df = pd.DataFrame(data=scaled_data, columns=new_data.columns)
+
+    kmeans = KMeans(n_clusters=4, init="k-means++", max_iter=300, n_init=10)
+    kmeans.fit(scaled_data)
+    y_pred = kmeans.predict(scaled_data)
+
+    # Применение PCA для снижения размерности до двух компонент
+    pca = PCA(n_components=2)
+    principal_components = pca.fit_transform(scaled_data)
+
+    # Создание DataFrame для визуализации
+    principal_df = pd.DataFrame(data=principal_components, columns=['component1', 'component2'])
+
+    # Добавление предсказанных кластеров в DataFrame
+    principal_df['cluster'] = y_pred
+
+    # Создание scatter plot
+    plt.scatter(principal_df['component1'], principal_df['component2'], c=principal_df['cluster'], cmap='viridis', alpha=0.5)
+    plt.xlabel('Component 1')
+    plt.ylabel('Component 2')
+    plt.title('Кластеры (PCA)')
+    plt.colorbar(label='Кластер')
+    plt.show()
+

@@ -1,15 +1,29 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import React from "react";
 import axios from "axios";
+import { Link, Router, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Typography, Box, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 
-const url = "http://127.0.0.1:5000/add_applicant ";
+const url = "http://127.0.0.1:5000/auth/register ";
 
 export default function Registration() {
-  const handleSubmit = () => {
-    axios.post(url, { id, name, surName, email, password });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async () => {
+    const resp = await axios.post(url, {
+      email,
+      password,
+      is_active: true,
+      is_superuser: false,
+      is_verified: false,
+      username,
+    });
+    navigate("/analysis");
   };
 
   // axios({
@@ -51,19 +65,21 @@ export default function Registration() {
         <TextField
           autoFocus
           margin="dense"
-          id="name"
+          id="username"
           label="Имя"
           type="text"
           fullWidth
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
-        <TextField
+        {/* <TextField
           autoFocus
           margin="dense"
           id="firstName"
           label="Фамилия"
           type="text"
           fullWidth
-        />
+        /> */}
         <TextField
           autoFocus
           margin="dense"
@@ -71,14 +87,18 @@ export default function Registration() {
           label="Email Adress"
           type="email"
           fullWidth
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           autoFocus
           margin="dense"
-          id="pass"
+          id="password"
           label="Password"
           type="password"
           fullWidth
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <Button

@@ -15,3 +15,9 @@ def get_analysis():
 @router.get("/highpoints")
 def get_high_points():
     return students_85_plus()
+
+
+@router.post("/")
+def post_obrabotka(score, olympiads, direction, university):
+    pass
+

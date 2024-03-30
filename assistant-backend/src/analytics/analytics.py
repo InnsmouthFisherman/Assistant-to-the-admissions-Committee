@@ -38,6 +38,7 @@ def students_n_score_plus(table, score):
     data["ФИО"] = data["ФИО"].apply(str.title)
     data["Дата рождения"] = data["Дата рождения"].astype("datetime64[ns]")
 
+    #Изменение формата для столбца "Результаты ЕГЭ"
     results_ege = data["Результаты ЕГЭ"].fillna(0)
     results_ege_n_score_plus = []
     for result in results_ege:
@@ -48,6 +49,8 @@ def students_n_score_plus(table, score):
             results_ege_n_score_plus.append("0,0,0")
 
     data["Результаты ЕГЭ"] = results_ege_n_score_plus
+
+    #Фильтрация данных по булевому массиву
     boolean_list = []
     for points in data["Результаты ЕГЭ"]:
         result = map(int, points.split(','))
@@ -79,6 +82,7 @@ def submission_of_documents(table, way):
 #Функции, возвращающие данные 
 #---------------------------------------------------------------------------------------------------------------------
 def get_ages(table):
+    '''Функция, которая использует входную таблицу и возвращает словарь где ключом является возраст, а значением количество этого возраста в таблице'''
     data = copy.deepcopy(table)
     data["Дата рождения"] = data["Дата рождения"].astype("datetime64[ns]")
 
@@ -92,6 +96,7 @@ def get_ages(table):
     return sort_counter_ages
 
 def get_cities(table):
+    '''Функция, которая использует входную таблицу и возвращает словарь где ключом является город, а значением количество этого города в таблице'''
     data = copy.deepcopy(table)
     table_city = data["Адрес регистрации"]
     result_city = []
@@ -108,8 +113,8 @@ def get_cities(table):
     return sort_counter_city
 
 def get_schools(table):
-
-    # Школы Тюмени (документ об образовании)
+    '''Функция, которая использует входную таблицу и возвращает словарь где ключом является школа или другое учебное заведение,
+       а значением количество этого учебного заведения в таблице'''
     data = copy.deepcopy(table)
     documents = data["Законченное образ. учреждение (осн. док.)"]
     counter_schools = Counter(documents)
@@ -119,6 +124,7 @@ def get_schools(table):
 
 
 def mean_points_ege(table):
+    '''Функция возвращает средний балл ЕГЭ, сумма баллов за ЕГЭ и средний балл документа об образовании'''
     data = copy.deepcopy(table)
 
     mean_point_ege = data["Средний балл ЕГЭ"].values
@@ -143,6 +149,9 @@ def mean_points_ege(table):
 
 
 def clusters_of_students():
+    '''Функция использует модель машинного обучения, кластеризует выборку студентов, используя характеристики
+       ["Пол", "Дата рождения", "Ср. балл док-та об образовании","Вид возмещения затрат", "Форма обучения",
+        "Сумма баллов", "Средний балл ЕГЭ"]'''
     def convert_ages(age):
         now_date = datetime.now()
         result = int(math.floor((now_date - age).days / 365.25))

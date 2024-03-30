@@ -9,32 +9,90 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+import copy
 
-data = pd.read_excel(os.getcwd() +
+#---------------------------------------------------------------------------------------------------------------------
+#Загрузка данных
+#---------------------------------------------------------------------------------------------------------------------
+data_table = pd.read_excel(os.getcwd() +
     r"\src\analytics\tables\Бакалавриат ВШЦТ.xlsx",
     sheet_name="Персоны", skiprows=2, index_col=0, na_values="None")
-data2 = pd.read_excel(
+data2_table = pd.read_excel(
     os.getcwd() +
     r"\src\analytics\tables\Бакалавриат ВШЦТ.xlsx",
     sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
 
-def result():
-    data2.set_index("№", inplace=True)
+#---------------------------------------------------------------------------------------------------------------------
+#Функции, фильтрующие данные
+#---------------------------------------------------------------------------------------------------------------------
+def students_n_score_plus(table, score):
+    '''Фильтрующая функция, используется для фильтрации данного dataframe объекта.
+       Возвращает отфильтрованную таблицу данных, которую можно использовать для других фильтрующих функций или функций, выводящих результат.'''
+    
+    ##Загрузка данных
+    data = copy.deepcopy(table)
+    data.set_index("№", inplace=True)
 
     ##Исправление формата столбцов
     pd.set_option('display.float_format', lambda x: '%.0f' % x)
     data["ФИО"] = data["ФИО"].apply(str.title)
     data["Дата рождения"] = data["Дата рождения"].astype("datetime64[ns]")
 
+    results_ege = data["Результаты ЕГЭ"].fillna(0)
+    results_ege_n_score_plus = []
+    for result in results_ege:
+        if result != 0:
+            points = re.findall(r"\d+", str(result)[5:])
+            results_ege_n_score_plus.append(",".join(points))
+        else:
+            results_ege_n_score_plus.append("0,0,0")
+
+    data["Результаты ЕГЭ"] = results_ege_n_score_plus
+    boolean_list = []
+    for points in data["Результаты ЕГЭ"]:
+        result = map(int, points.split(','))
+        if all([num >= score for num in result]):
+            boolean_list.append(True)
+        else:
+            boolean_list.append(False)
+
+    result_df = data.loc[boolean_list].fillna("-").drop_duplicates()
+    return result_df
+ 
+def submission_of_documents(table, way):
+    '''Функция фильтрует переданную таблицу по способу подачи документов в вуз,
+       возрвращает отфильтрованный DataFrame объект, который можно использовать в других функциях'''
+    
+    if way == "Через портал гос. услуг":
+        result_table = table[table["Способ подачи документов"] == "Через портал гос. услуг"]
+    elif way == "Лично":
+        result_table = table[table["Способ подачи документов"] == "Лично"]
+    elif way == "В электронной форме":
+        result_table = table[table["Способ подачи документов"] == "В электронной форме"]
+    elif way == "По доверенности":
+        result_table = table[table["Способ подачи документов"] == "По доверенности"]
+
+    return result_table
+
+
+#---------------------------------------------------------------------------------------------------------------------
+#Функции, возвращающие данные 
+#---------------------------------------------------------------------------------------------------------------------
+def get_ages(table):
+    data = copy.deepcopy(table)
+    data["Дата рождения"] = data["Дата рождения"].astype("datetime64[ns]")
+
     # Массив данных даты рождения(возраста)
     now_date = datetime.now()
-    table_dates_birtday = data["Дата рождения"]
-    result_dates_birtday = [int(math.floor((now_date - current_date).days / 365.25)) for current_date in
-                            table_dates_birtday]
+    table_dates_birtday= data["Дата рождения"]
+    result_dates_birtday = [int(math.floor((now_date - current_date).days / 365.25)) for current_date in table_dates_birtday]
     counter_ages = Counter(result_dates_birtday)
-    # sort_counter_ages = sorted(counter_ages.items(), key = lambda x: x[0])
+    sort_counter_ages = sorted(counter_ages.items(), key = lambda x: x[0])
 
-    # Массив данных городов
+    return sort_counter_ages
+
+def get_cities(table):
+    data = copy.deepcopy(table)
     table_city = data["Адрес регистрации"]
     result_city = []
     count = 0
@@ -45,81 +103,42 @@ def result():
                 result_city.append(*sub_city)
 
     counter_city = Counter(result_city)
-    sort_counter_city = sorted(counter_city.items(), key=lambda x: x[1], reverse=True)
+    sort_counter_city = sorted(counter_city.items(), key = lambda x: x[1], reverse=True)
+
+    return sort_counter_city
+
+def get_schools(table):
 
     # Школы Тюмени (документ об образовании)
+    data = copy.deepcopy(table)
     documents = data["Законченное образ. учреждение (осн. док.)"]
-    result_documents = []
-    result_schools = []
-    for document in documents:
-        information = re.search(r'г. Тюмень', document, flags=re.I)
-        if information:
-            result_documents.append(document)
-    for document in result_documents:
-        check = re.search("\d+", document)
-        if check:
-            school = check.group(0)
-        else:
-            school = document
-        result_schools.append(school)
-    counter_schools = Counter(result_schools)
-    counter_schools = sorted(counter_schools.items(), key=lambda x: (x[1], x[0]), reverse=True)
+    counter_schools = Counter(documents)
+    counter_schools = dict(counter_schools.most_common(10)[:10])
 
-    # средний балл по егэ
-    mean_point_ege = data2["Средний балл ЕГЭ"].values
+    return counter_schools
+
+
+def mean_points_ege(table):
+    data = copy.deepcopy(table)
+
+    mean_point_ege = data["Средний балл ЕГЭ"].values
     mean_point_ege = np.array(list((map(lambda x: str(x).replace(",", "."), mean_point_ege))))
     without_nan = list(np.where(mean_point_ege != "nan", mean_point_ege, 0))
     result_mean_point_ege = list(map(lambda x: int(float(x)), without_nan))
     sorted_mean_point_ege = sorted(result_mean_point_ege)
 
     # Средний балл за аттестат
-    mean_point_att = data2["Ср. балл док-та об образовании"]
+    mean_point_att = data["Ср. балл док-та об образовании"]
 
     ##баллы егэ
-    points = data2["Сумма баллов"]
-    points.fillna(0).tolist()
-
-    # Создание словаря с результатами
-    results_dict = {
-        "count_ages_key": counter_ages,
-        "count_cities_key": sort_counter_city,
-        "count_schools_key": counter_schools,
-        "mean_point_ege_key": sorted_mean_point_ege,
-        "mean_point_att_key": mean_point_att,
-        "points_key": points
-    }
-
-    return results_dict
-
-
-def students_85_plus():
-    data2.set_index("№", inplace=True)
-
-    ##Исправление формата столбцов
-    pd.set_option('display.float_format', lambda x: '%.0f' % x)
-    data["ФИО"] = data["ФИО"].apply(str.title)
-    data["Дата рождения"] = data["Дата рождения"].astype("datetime64[ns]")
-
-    results_ege = data2["Результаты ЕГЭ"].fillna(0)
-    results_ege_90_plus = []
-    for result in results_ege:
-        if result != 0:
-            points = re.findall(r"\d+", str(result)[5:])
-            results_ege_90_plus.append(",".join(points))
-        else:
-            results_ege_90_plus.append("0,0,0")
-
-    data2["Результаты ЕГЭ"] = results_ege_90_plus
-    boolean_list = []
-    for points in data2["Результаты ЕГЭ"]:
-        result = map(int, points.split(','))
-        if all([num >= 85 for num in result]):
-            boolean_list.append(True)
-        else:
-            boolean_list.append(False)
-
-    result_df = data2.loc[boolean_list]
-    result = result_df.to_dict(orient='records')
+    points = data["Сумма баллов"]
+    
+    result_df = pd.DataFrame()
+    result_df["Сумма баллов"] = points
+    result_df["Ср. балл док-та об образовании"] = mean_point_att
+    result_df["Средний балл ЕГЭ"] = result_mean_point_ege
+    result = result_df.drop_duplicates().dropna().to_dict()
+    
     return result
 
 
@@ -130,7 +149,7 @@ def clusters_of_students():
         return result
 
     #Загрузка нужных колонн
-    new_data = data2[["Пол", "Дата рождения", 
+    new_data = data_table[["Пол", "Дата рождения", 
                     "Ср. балл док-та об образовании",
                     "Вид возмещения затрат", "Форма обучения",
                     "Сумма баллов", "Средний балл ЕГЭ"]].drop_duplicates()
@@ -147,7 +166,6 @@ def clusters_of_students():
     new_data["Дата рождения"] = new_data["Дата рождения"].astype("datetime64[ns]")
     new_data["Дата рождения"] = new_data["Дата рождения"].apply(convert_ages)
 
-    #Обучение
     scaler = StandardScaler()
     scaled_data = scaler.fit_transform(new_data)
     scaled_data_df = pd.DataFrame(data=scaled_data, columns=new_data.columns)
@@ -173,4 +191,82 @@ def clusters_of_students():
     plt.title('Кластеры (PCA)')
     plt.colorbar(label='Кластер')
     plt.show()
+
+#---------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+def result():
+
+    ##Исправление формата столбцов
+    pd.set_option('display.float_format', lambda x: '%.0f' % x)
+    data_table["ФИО"] = data_table["ФИО"].apply(str.title)
+    data_table["Дата рождения"] = data_table["Дата рождения"].astype("datetime64[ns]")
+
+    # Массив данных даты рождения(возраста)
+    now_date = datetime.now()
+    table_dates_birtday= data_table["Дата рождения"]
+    result_dates_birtday = [int(math.floor((now_date - current_date).days / 365.25)) for current_date in table_dates_birtday]
+    counter_ages = Counter(result_dates_birtday)
+    # sort_counter_ages = sorted(counter_ages.items(), key = lambda x: x[0])
+
+    # Массив данных городов
+    table_city = data_table["Адрес регистрации"]
+    result_city = []
+    count = 0
+    for el in table_city:
+        if not isinstance(el, float):
+            sub_city = [city for city in el.split(",") if "г." in city]
+            if sub_city:
+                result_city.append(*sub_city)
+
+    counter_city = Counter(result_city)
+    sort_counter_city = sorted(counter_city.items(), key = lambda x: x[1], reverse=True)
+
+    # Школы Тюмени (документ об образовании)
+    documents = data_table["Законченное образ. учреждение (осн. док.)"]
+    result_documents = []
+    result_schools = []
+    for document in documents:
+        information = re.search(r'г. Тюмень', document, flags=re.I)
+        if information:
+            result_documents.append(document)
+    for document in result_documents:
+        check = re.search("\d+", document)
+        if check:
+            school = check.group(0)
+        else:
+            school = document
+        result_schools.append(school)
+    counter_schools = Counter(result_schools)
+    counter_schools = sorted(counter_schools.items(), key = lambda x: (x[1], x[0]), reverse=True)
+
+    # средний балл по егэ
+    mean_point_ege = data2_table["Средний балл ЕГЭ"].values
+    mean_point_ege = np.array(list((map(lambda x: str(x).replace(",", "."), mean_point_ege))))
+    without_nan = list(np.where(mean_point_ege != "nan", mean_point_ege, 0))
+    result_mean_point_ege = list(map(lambda x: int(float(x)), without_nan))
+    sorted_mean_point_ege = sorted(result_mean_point_ege)
+
+    # Средний балл за аттестат
+    mean_point_att = data2_table["Ср. балл док-та об образовании"]
+
+    ##баллы егэ
+    points = data2_table["Сумма баллов"]
+    points.fillna(0).tolist()
+
+    # Создание словаря с результатами
+    results_dict = {
+        "count_ages_key": counter_ages,
+        "count_cities_key": sort_counter_city,
+        "count_schools_key": counter_schools,
+        "mean_point_ege_key": sorted_mean_point_ege,
+        "mean_point_att_key": mean_point_att,
+        "points_key": points
+    }
+
+
+    return results_dict
 

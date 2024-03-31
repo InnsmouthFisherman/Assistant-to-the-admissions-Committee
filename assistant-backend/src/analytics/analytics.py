@@ -31,14 +31,12 @@ def students_n_score_plus(table, score):
     
     ##Загрузка данных
     data = copy.deepcopy(table)
-    data.set_index("№", inplace=True)
 
     ##Исправление формата столбцов
     pd.set_option('display.float_format', lambda x: '%.0f' % x)
     data["ФИО"] = data["ФИО"].apply(str.title)
     data["Дата рождения"] = data["Дата рождения"].astype("datetime64[ns]")
 
-    #Изменение формата для столбца "Результаты ЕГЭ"
     results_ege = data["Результаты ЕГЭ"].fillna(0)
     results_ege_n_score_plus = []
     for result in results_ege:
@@ -49,8 +47,6 @@ def students_n_score_plus(table, score):
             results_ege_n_score_plus.append("0,0,0")
 
     data["Результаты ЕГЭ"] = results_ege_n_score_plus
-
-    #Фильтрация данных по булевому массиву
     boolean_list = []
     for points in data["Результаты ЕГЭ"]:
         result = map(int, points.split(','))
@@ -82,7 +78,7 @@ def submission_of_documents(table, way):
 #Функции, возвращающие данные 
 #---------------------------------------------------------------------------------------------------------------------
 def get_ages(table):
-    '''Функция, которая использует входную таблицу и возвращает словарь где ключом является возраст, а значением количество этого возраста в таблице'''
+    '''Функция возвращает количество возрастов'''
     data = copy.deepcopy(table)
     data["Дата рождения"] = data["Дата рождения"].astype("datetime64[ns]")
 
@@ -93,10 +89,10 @@ def get_ages(table):
     counter_ages = Counter(result_dates_birtday)
     sort_counter_ages = sorted(counter_ages.items(), key = lambda x: x[0])
 
-    return sort_counter_ages
+    return dict(sort_counter_ages)
 
 def get_cities(table):
-    '''Функция, которая использует входную таблицу и возвращает словарь где ключом является город, а значением количество этого города в таблице'''
+    '''Функция возвращает 10 самых популярных городов абитуриентов'''
     data = copy.deepcopy(table)
     table_city = data["Адрес регистрации"]
     result_city = []
@@ -108,19 +104,21 @@ def get_cities(table):
                 result_city.append(*sub_city)
 
     counter_city = Counter(result_city)
-    sort_counter_city = sorted(counter_city.items(), key = lambda x: x[1], reverse=True)
+    counter_city = counter_city.most_common(10)
 
-    return sort_counter_city
+    return dict(counter_city)
 
 def get_schools(table):
-    '''Функция, которая использует входную таблицу и возвращает словарь где ключом является школа или другое учебное заведение,
-       а значением количество этого учебного заведения в таблице'''
+    '''Функция возвращает 10 самых часто встречаемых школ , из которых пришли абитуриенты после 11 класса.
+       На вход пока что должна поступать первый лист excel файла'''
+    # Школы Тюмени (документ об образовании)
     data = copy.deepcopy(table)
     documents = data["Законченное образ. учреждение (осн. док.)"]
     counter_schools = Counter(documents)
     counter_schools = dict(counter_schools.most_common(10)[:10])
 
     return counter_schools
+
 
 
 def mean_points_ege(table):

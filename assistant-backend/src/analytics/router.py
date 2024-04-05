@@ -1,23 +1,28 @@
 from fastapi import APIRouter
-from .analytics import result
+from .analytics import result, get_ages, get_cities, students_n_score_plus, submission_of_documents
 
 router = APIRouter(
     prefix="/analytics",
     tags=["analytics"]
 )
 
-
-@router.get("/test")
-def get_analysis():
-    return result()
-
-
-# @router.get("/highpoints")
-# def get_high_points():
-#     return students_85_plus()
-
-
+# сейчас у нас есть функции:
+# для результатов егэ students_n_score_plus()
+# формы подачи документов submission_of_documents()
+# возрастов get_ages()
+# городов и школ get_cities()
+# необходимо чтобы функция принимала нужные параметры (которые могут быть необязательными) и возвращала данные всех
+# функций, для которых указаны нужные параметры
 @router.post("/")
-def post_obrabotka(score, olympiads, direction, university):
-    pass
+def analytics(score=False, way=False, age=False, city=False):
+    parametrs = {}
+    if score:
+        parametrs['score'] = students_n_score_plus(score)
+    if way:
+        parametrs['way'] = submission_of_documents(way)
+    if age:
+        parametrs['age'] = get_ages()
+    if city:
+        parametrs['city'] = get_cities()
+    return parametrs
 

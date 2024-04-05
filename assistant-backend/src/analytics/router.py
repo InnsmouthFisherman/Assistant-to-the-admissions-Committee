@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .analytics import result, students_85_plus
+from .analytics import result
 
 router = APIRouter(
     prefix="/analytics",
@@ -12,9 +12,9 @@ def get_analysis():
     return result()
 
 
-@router.get("/highpoints")
-def get_high_points():
-    return students_85_plus()
+# @router.get("/highpoints")
+# def get_high_points():
+#     return students_85_plus()
 
 
 @router.post("/")

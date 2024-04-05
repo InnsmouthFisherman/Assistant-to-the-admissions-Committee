@@ -4,9 +4,9 @@ from fastapi_users import FastAPIUsers
 from fastapi.middleware.cors import CORSMiddleware
 from analytics.router import router as analytics_router
 from auth.database import User
-from src.auth.auth import auth_backend
-from src.auth.manager import get_user_manager
-from src.auth.schemas import UserRead, UserCreate
+from auth.auth import auth_backend
+from auth.manager import get_user_manager
+from auth.schemas import UserRead, UserCreate
 
 app = FastAPI()
 

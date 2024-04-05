@@ -216,7 +216,7 @@ def direction_priority(table):
     '''Функция использует второй лист excel файла и две колонки "Приоритет", "Направление подготовки".
        Возвращает самые приоритетные направления по убыванию'''
     
-    data = copy.deepcopy(data2_table)
+    data = copy.deepcopy(table)
     group_data = data.groupby("Направление подготовки", sort=True)["Приоритет"].value_counts()
     result_df = group_data.reset_index(name='Количество')
     result_df.sort_values(["Приоритет"], ascending=True, inplace=True)
@@ -250,7 +250,7 @@ def direction_through_priority(table):
     '''Функция использует второй лист excel файла и две колонки "Сквозной приоритет", "Направление подготовки".
        Возвращает самые приоритетные направления по убыванию'''
     
-    data = copy.deepcopy(data2_table)
+    data = copy.deepcopy(table)
     group_data = data.groupby("Направление подготовки", sort=True)["Сквозной приоритет"].value_counts()
     result_df = group_data.reset_index(name='Количество')
     result_df.sort_values(["Сквозной приоритет"], ascending=True, inplace=True)

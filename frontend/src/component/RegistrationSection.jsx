@@ -35,7 +35,7 @@ export default function Registration() {
   };
 
   const blurHandler = (e) => {
-    switch (e.target.name) {
+    switch (e.target.nam) {
       case "userName":
         setUserNameDirty(true);
         braek;
@@ -50,7 +50,7 @@ export default function Registration() {
 
   const userNameValidate = (e) => {
     if (setUserNameDirty() == true) {
-      userNameError;
+      setUserNameError("хуй");
     }
 
     // if (setUserName(e.Target.value) == "") {

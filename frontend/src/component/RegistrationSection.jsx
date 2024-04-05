@@ -9,9 +9,17 @@ import Button from "@mui/material/Button";
 const url = "http://127.0.0.1:5000/auth/register ";
 
 export default function Registration() {
+  const [userName, setUserName] = useState(null);
+  const [userNameDirty, setUserNameDirty] = useState(false);
+  const [userNameError, setUserNameError] = useState(null);
   const [email, setEmail] = useState("");
+  const [emailDirty, setEmailDirty] = useState(false);
+  const [emailError, setEmailError] = useState(null);
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [passwordDirty, setPasswordDirty] = useState(false);
+  const [passworError, setPasswordError] = useState(
+    "Пароль не может быть пустым"
+  );
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -26,17 +34,33 @@ export default function Registration() {
     navigate("/analysis");
   };
 
-  // axios({
-  //   method: "post",
-  //   url: url,
-  //   data: {
-  //     id: Number,
-  //     name: name,
-  //     Surname: surName,
-  //     Email: email,
-  //     Password: password,
-  //   },
-  // });
+  const blurHandler = (e) => {
+    switch (e.target.name) {
+      case "userName":
+        setUserNameDirty(true);
+        braek;
+      case "email":
+        setEmailDirty(true);
+        braek;
+      case "password":
+        setPasswordDirty(true);
+        break;
+    }
+  };
+
+  const userNameValidate = (e) => {
+    if (setUserNameDirty() == true) {
+      userNameError;
+    }
+
+    // if (setUserName(e.Target.value) == "") {
+    //   setUserNameError("хуй");
+  };
+
+  const emailValidate = (e) => {
+    setEmail(e.target.value);
+    setEmailError("хуй");
+  };
 
   return (
     <>
@@ -63,14 +87,17 @@ export default function Registration() {
           Регистрация
         </Typography>
         <TextField
+          error={userNameError}
+          onBlure={(e) => blurHandler(e)}
           autoFocus
           margin="dense"
-          id="username"
+          id="userName"
           label="Имя"
           type="text"
           fullWidth
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={userName}
+          helperText={userNameError}
+          onChange={(e) => userNameValidate(e)}
         />
         {/* <TextField
           autoFocus
@@ -81,6 +108,8 @@ export default function Registration() {
           fullWidth
         /> */}
         <TextField
+          error={emailError}
+          onBlure={(e) => blurHandler(e)}
           autoFocus
           margin="dense"
           id="email"
@@ -88,10 +117,13 @@ export default function Registration() {
           type="email"
           fullWidth
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          helperText={emailError}
+          onChange={(e) => emailValidate(e)}
         />
+
         <TextField
           autoFocus
+          onBlure={(e) => blurHandler(e)}
           margin="dense"
           id="password"
           label="Password"

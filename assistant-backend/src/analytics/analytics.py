@@ -15,26 +15,25 @@ import copy
 #Загрузка данных
 #---------------------------------------------------------------------------------------------------------------------
 data_table = pd.read_excel(os.getcwd() +
-    r"\analytics\tables\Бакалавриат ВШЦТ.xlsx",
+    r"\src\analytics\tables\Бакалавриат ВШЦТ.xlsx",
     sheet_name="Персоны", skiprows=2, index_col=0, na_values="None")
 data2_table = pd.read_excel(
     os.getcwd() +
-    r"\analytics\tables\Бакалавриат ВШЦТ.xlsx",
+    r"\src\analytics\tables\Бакалавриат ВШЦТ.xlsx",
     sheet_name="Абитуриенты", na_values="None", skiprows=9, parse_dates=True).drop_duplicates()
+
 
 #---------------------------------------------------------------------------------------------------------------------
 #Функции, фильтрующие данные
 #---------------------------------------------------------------------------------------------------------------------
-
-
 def students_n_score_plus(table, score):
     '''Фильтрующая функция, используется для фильтрации данного dataframe объекта.
        Возвращает отфильтрованную таблицу данных, которую можно использовать для других фильтрующих функций или функций, выводящих результат.'''
     
-    # Загрузка данных
+    ##Загрузка данных
     data = copy.deepcopy(table)
 
-    # Исправление формата столбцов
+    ##Исправление формата столбцов
     pd.set_option('display.float_format', lambda x: '%.0f' % x)
     data["ФИО"] = data["ФИО"].apply(str.title)
     data["Дата рождения"] = data["Дата рождения"].astype("datetime64[ns]")
@@ -59,29 +58,26 @@ def students_n_score_plus(table, score):
 
     result_df = data.loc[boolean_list].fillna("-").drop_duplicates()
     return result_df
-
-
+ 
 def submission_of_documents(table, way):
     '''Функция фильтрует переданную таблицу по способу подачи документов в вуз,
        возрвращает отфильтрованный DataFrame объект, который можно использовать в других функциях'''
-
+    
     if way == "Через портал гос. услуг":
         result_table = table[table["Способ подачи документов"] == "Через портал гос. услуг"]
-        return result_table
     elif way == "Лично":
         result_table = table[table["Способ подачи документов"] == "Лично"]
-        return result_table
     elif way == "В электронной форме":
         result_table = table[table["Способ подачи документов"] == "В электронной форме"]
-        return result_table
     elif way == "По доверенности":
         result_table = table[table["Способ подачи документов"] == "По доверенности"]
-        return result_table
+
+    return result_table
 
 
-#---------------------------------------------------------------------------------------------------------------------
-#Функции, возвращающие данные 
-#---------------------------------------------------------------------------------------------------------------------
+# #---------------------------------------------------------------------------------------------------------------------
+# #Функции, возвращающие данные 
+# #---------------------------------------------------------------------------------------------------------------------
 def get_ages(table):
     '''Функция, которая использует входную таблицу и возвращает словарь где ключом является возраст, а значением количество этого возраста в таблице.
     Использует входную таблицу и возвращает словарь где ключом является возраст, а значением количество этого возраста в таблице'''
@@ -96,7 +92,6 @@ def get_ages(table):
     sort_counter_ages = sorted(counter_ages.items(), key = lambda x: x[0])
 
     return dict(sort_counter_ages)
-
 
 def get_cities(table):
     '''Функция, которая использует входную таблицу и возвращает словарь где ключом является город, а значением количество этого города в таблице.
@@ -116,7 +111,6 @@ def get_cities(table):
 
     return dict(counter_city)
 
-
 def get_schools(table):
     '''Функция возвращает 10 самых часто встречаемых школ , из которых пришли абитуриенты после 11 класса.
        На вход пока что должна поступать первый лист excel файла. Использует входную таблицу и возвращает словарь где ключом является школа или другое учебное заведение,
@@ -128,6 +122,7 @@ def get_schools(table):
     counter_schools = dict(counter_schools.most_common(10)[:10])
 
     return counter_schools
+
 
 
 def mean_points_ege(table):
@@ -143,7 +138,7 @@ def mean_points_ege(table):
     # Средний балл за аттестат
     mean_point_att = data["Ср. балл док-та об образовании"]
 
-    # баллы егэ
+    ##баллы егэ
     points = data["Сумма баллов"]
     
     result_df = pd.DataFrame()
@@ -156,21 +151,21 @@ def mean_points_ege(table):
 
 
 def clusters_of_students():
-    ''' Функция использует модель машинного обучения, кластеризует выборку студентов, используя характеристики
+    '''Функция использует модель машинного обучения, кластеризует выборку студентов, используя характеристики
        ["Пол", "Дата рождения", "Ср. балл док-та об образовании","Вид возмещения затрат", "Форма обучения",
-        "Сумма баллов", "Средний балл ЕГЭ"] '''
+        "Сумма баллов", "Средний балл ЕГЭ"]'''
     def convert_ages(age):
         now_date = datetime.now()
         result = int(math.floor((now_date - age).days / 365.25))
         return result
 
-    # Загрузка нужных колонн
+    #Загрузка нужных колонн
     new_data = data_table[["Пол", "Дата рождения", 
                     "Ср. балл док-та об образовании",
                     "Вид возмещения затрат", "Форма обучения",
                     "Сумма баллов", "Средний балл ЕГЭ"]].drop_duplicates()
 
-    # Обработка и подготовка данных
+    #Обработка и подготовка данных
     new_data["Сумма баллов"] = new_data["Сумма баллов"].fillna(0)
     new_data["Средний балл ЕГЭ"] = new_data["Средний балл ЕГЭ"].fillna("0")
 
@@ -208,12 +203,88 @@ def clusters_of_students():
     plt.colorbar(label='Кластер')
     plt.show()
 
-# ---------------------------------------------------------------------------------------------------------------------
+
+def graduated_schools(table):
+    '''Функция использует вторую страницу excel файла, использует колонку "Полученное образование"
+       , возвращает количество людей , которые пришли после школы или колледжа'''
+    data = copy.deepcopy(table)
+    education_received = data["Полученное образование"]
+    counters = Counter(education_received)
+    return counters
+
+def direction_priority(table):
+    '''Функция использует второй лист excel файла и две колонки "Приоритет", "Направление подготовки".
+       Возвращает самые приоритетные направления по убыванию'''
+    
+    data = copy.deepcopy(table)
+    group_data = data.groupby("Направление подготовки", sort=True)["Приоритет"].value_counts()
+    result_df = group_data.reset_index(name='Количество')
+    result_df.sort_values(["Приоритет"], ascending=True, inplace=True)
+
+    prioritets = result_df["Приоритет"].unique()
+    directions = result_df["Направление подготовки"].unique()
+
+    direction_priority_counts = {}
+
+    # Создаем пустые списки для каждого направления
+    for direction in directions:
+        direction_priority_counts[direction] = []
+
+    # Заполняем списки кортежами (приоритет, количество) для каждого направления
+    #Можно использовать как отдельный вывод результа
+    for index, row in result_df.iterrows():
+        direction = row["Направление подготовки"]
+        priority = row["Приоритет"]
+        count = row["Количество"]
+        direction_priority_counts[direction].append((priority, count))
+
+    #Создание словаря для 1 приоритета каждого направления
+    result = {}
+    for key, value in direction_priority_counts.items():
+        result[key] = value[0]
+    result = dict(sorted(result.items(), key=lambda x: x[1], reverse=True))
+
+    return result
+
+def direction_through_priority(table):
+    '''Функция использует второй лист excel файла и две колонки "Сквозной приоритет", "Направление подготовки".
+       Возвращает самые приоритетные направления по убыванию'''
+    
+    data = copy.deepcopy(table)
+    group_data = data.groupby("Направление подготовки", sort=True)["Сквозной приоритет"].value_counts()
+    result_df = group_data.reset_index(name='Количество')
+    result_df.sort_values(["Сквозной приоритет"], ascending=True, inplace=True)
+
+    prioritets = result_df["Сквозной приоритет"].unique()
+    directions = result_df["Направление подготовки"].unique()
+
+    direction_priority_counts = {}
+
+    # Создаем пустые списки для каждого направления
+    for direction in directions:
+        direction_priority_counts[direction] = []
+
+    # Заполняем списки кортежами (приоритет, количество) для каждого направления
+    #Можно использовать как отдельный вывод результа
+    for index, row in result_df.iterrows():
+        direction = row["Направление подготовки"]
+        priority = row["Сквозной приоритет"]
+        count = row["Количество"]
+        direction_priority_counts[direction].append((priority, count))
+
+    #Создание словаря для 1 приоритета каждого направления
+    result = {}
+    for key, value in direction_priority_counts.items():
+        result[key] = value[0]
+    result = dict(sorted(result.items(), key=lambda x: x[1], reverse=True))
+
+    return result
+#---------------------------------------------------------------------------------------------------------------------
 
 
 def result():
 
-    # Исправление формата столбцов
+    ##Исправление формата столбцов
     pd.set_option('display.float_format', lambda x: '%.0f' % x)
     data_table["ФИО"] = data_table["ФИО"].apply(str.title)
     data_table["Дата рождения"] = data_table["Дата рождения"].astype("datetime64[ns]")
@@ -266,7 +337,7 @@ def result():
     # Средний балл за аттестат
     mean_point_att = data2_table["Ср. балл док-та об образовании"]
 
-    # баллы егэ
+    ##баллы егэ
     points = data2_table["Сумма баллов"]
     points.fillna(0).tolist()
 
@@ -279,5 +350,6 @@ def result():
         "mean_point_att_key": mean_point_att,
         "points_key": points
     }
+
 
     return results_dict

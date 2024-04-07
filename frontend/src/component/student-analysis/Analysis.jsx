@@ -1,8 +1,14 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-import { Typography, Box, TextField } from "@mui/material";
+import {
+  Typography,
+  Box,
+  TextField,
+  Input,
+  stepContentClasses,
+} from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,11 +16,28 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 export default function Analysis() {
-  const [options, setOptions] = useState("");
+  const [options, setOptions] = useState([]);
+  const [isUpdate, setUpdate] = useState(false);
+
+  useEffect(() => {
+    setUpdate(false);
+  }, [isUpdate]);
 
   const handleChange = (event) => {
-    setOptions(event.target.value);
+    let tempArray = options;
+    if (!tempArray.includes(event.target.value)) {
+      tempArray.push(event.target.value);
+    } else {
+      tempArray = tempArray.filter((i) => i !== event.target.value);
+    }
+    setOptions(tempArray);
+    setUpdate(true);
   };
+
+  const handleClick = (event) => {
+    setComfirmed(true);
+  };
+  // const handleClick = ()
   return (
     // <>
     //   <Box
@@ -103,16 +126,31 @@ export default function Analysis() {
           <Select
             labelId="demo-simple-select-label"
             id="select-options"
-            value={options}
             label="Добавить Параметр"
             onChange={handleChange}
           >
-            <MenuItem value={10}>Баллы</MenuItem>
-            <MenuItem value={20}>Город</MenuItem>
-            <MenuItem value={30}>Что-то ещё</MenuItem>
+            <MenuItem value={"Баллы"}>Баллы</MenuItem>
+            <MenuItem value={"Город"}>Город</MenuItem>
+            <MenuItem value={"Что-то еще"}>Что-то ещё</MenuItem>
           </Select>
         </FormControl>
-        <Button variant="contained">Добавить Параметр</Button>
+        {/* <Button
+          variant="contained"
+          onClick={handleClick}
+          // disabled={isConfirmed}
+        >
+          Добавить Параметр
+        </Button> */}
+        {options &&
+          options.map((option) => (
+            <Box>
+              <Typography sx={{ marginTop: 5 }}>{option}</Typography>
+              <TextField
+                sx={{ width: "100%" }}
+                placeholder={option}
+              ></TextField>
+            </Box>
+          ))}
       </Box>
     </>
   );

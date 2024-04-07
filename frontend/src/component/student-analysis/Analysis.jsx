@@ -104,24 +104,25 @@ export default function Analysis() {
     // </>
     <>
       <CssBaseline />
+      <Typography
+        variant="h1"
+        fontWeight="500"
+        fontSize="20px"
+        lineHeight="23px"
+        sx={{ borderBottom: 1 }}
+        margin="38px 0 0 38px"
+        // position={"fixed"}
+      >
+        Параметры
+      </Typography>
       <Box
         height={"100vh"}
         display={"flex"}
-        flexDirection={"column"}
+        flexDirection={"row"}
         alignItems={"flex-start"}
         margin="38px 0 0 38px"
       >
-        <Typography
-          variant="h1"
-          fontWeight="500"
-          fontSize="20px"
-          lineHeight="23px"
-          sx={{ borderBottom: 1 }}
-          // position={"fixed"}
-        >
-          Параметры
-        </Typography>
-        <FormControl sx={{ m: 1, minWidth: 250, margin: "38px 0 150px 0" }}>
+        <FormControl sx={{ m: 1, minWidth: 250, margin: "38px 0 38px 0" }}>
           <InputLabel id="select-label-options">Добавить Параметр</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -143,7 +144,12 @@ export default function Analysis() {
         </Button> */}
         {options &&
           options.map((option) => (
-            <Box>
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"flex-start"}
+              margin="0 10px 0 15px"
+            >
               <Typography sx={{ marginTop: 5 }}>{option}</Typography>
               <TextField
                 sx={{ width: "100%" }}

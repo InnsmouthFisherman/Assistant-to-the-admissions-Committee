@@ -279,6 +279,17 @@ def direction_through_priority(table):
     result = dict(sorted(result.items(), key=lambda x: x[1], reverse=True))
 
     return result
+
+def column_mean(table, column):
+    '''Функция принимает таблицу, второй лист, а также колонку , которую нужно использовать
+        для вычисления. Возвращает среднее значение колонки, если ее тип (int, float), если колонка категориальная, возвращает ее моду'''
+    data = copy.deepcopy(table)
+    data = data.fillna("-")
+    dtype = table[column].dtype
+    if dtype is int or dtype is float:
+        return {column: table[column].mean().values[0]}
+    else:
+        return {column: table[column].mode().values[0]}
 #---------------------------------------------------------------------------------------------------------------------
 
 

@@ -9,12 +9,12 @@ import Button from "@mui/material/Button";
 const url = "http://127.0.0.1:5000/auth/register ";
 
 export default function Registration() {
-  const [userName, setUserName] = useState(null);
+  const [userName, setUserName] = useState("");
   const [userNameDirty, setUserNameDirty] = useState(false);
-  const [userNameError, setUserNameError] = useState(null);
+  const [userNameError, setUserNameError] = useState("");
   const [email, setEmail] = useState("");
   const [emailDirty, setEmailDirty] = useState(false);
-  const [emailError, setEmailError] = useState(null);
+  const [emailError, setEmailError] = useState("хуй ");
   const [password, setPassword] = useState("");
   const [passwordDirty, setPasswordDirty] = useState(false);
   const [passworError, setPasswordError] = useState(
@@ -35,13 +35,13 @@ export default function Registration() {
   };
 
   const blurHandler = (e) => {
-    switch (e.target.nam) {
+    switch (e.target.name) {
       case "userName":
         setUserNameDirty(true);
-        braek;
+        break;
       case "email":
         setEmailDirty(true);
-        braek;
+        break;
       case "password":
         setPasswordDirty(true);
         break;
@@ -95,9 +95,9 @@ export default function Registration() {
           label="Имя"
           type="text"
           fullWidth
-          value={userName}
-          helperText={userNameError}
-          onChange={(e) => userNameValidate(e)}
+          name={"userName"}
+          // helperText={userNameError}
+          // onChange={(e) => userNameValidate(e)}
         />
         {/* <TextField
           autoFocus
@@ -108,7 +108,7 @@ export default function Registration() {
           fullWidth
         /> */}
         <TextField
-          error={emailError}
+          // error={ }
           onBlure={(e) => blurHandler(e)}
           autoFocus
           margin="dense"
@@ -116,9 +116,8 @@ export default function Registration() {
           label="Email Adress"
           type="email"
           fullWidth
-          value={email}
-          helperText={emailError}
-          onChange={(e) => emailValidate(e)}
+          name={"email"}
+          // onChange={(e) => emailValidate(e)}
         />
 
         <TextField
@@ -129,8 +128,8 @@ export default function Registration() {
           label="Password"
           type="password"
           fullWidth
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name={"password"}
+          // onChange={(e) => setPassword(e.target.value)}
         />
 
         <Button

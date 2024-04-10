@@ -21,6 +21,6 @@ export default function App() {
     //   <CssBaseline />
     //   <Analysis />
     // </ThemeProvider>
-    <Analysis />
+    <Registration />
   );
 }

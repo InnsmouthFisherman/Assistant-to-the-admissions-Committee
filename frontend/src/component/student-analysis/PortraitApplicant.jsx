@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function Analysis() {
+export default function PortraitApplican() {
   const [options, setOptions] = useState([]);
   const [isUpdate, setUpdate] = useState(false);
 
@@ -104,24 +104,25 @@ export default function Analysis() {
     // </>
     <>
       <CssBaseline />
-      <Typography
-        variant="h1"
-        fontWeight="500"
-        fontSize="20px"
-        lineHeight="23px"
-        sx={{ borderBottom: 1 }}
-        margin="38px 0 0 38px"
-        // position={"fixed"}
-      >
-        Параметры
-      </Typography>
+
       <Box
-        height={"100vh"}
-        display={"flex"}
-        flexDirection={"row"}
-        alignItems={"flex-start"}
-        margin="38px 0 0 38px"
+      // height={"100vh"}
+      // display={"flex"}
+      // flexDirection={"row"}
+      // alignItems={"flex-start"}
+      // margin="38px 0 0 38px"
       >
+        <Typography
+          variant="h1"
+          fontWeight="500"
+          fontSize="20px"
+          lineHeight="23px"
+          sx={{ borderBottom: 1 }}
+          margin="38px 0 0 0"
+          // position={"fixed"}
+        >
+          Параметры
+        </Typography>
         <FormControl sx={{ m: 1, minWidth: 250, margin: "38px 0 38px 0" }}>
           <InputLabel id="select-label-options">Добавить Параметр</InputLabel>
           <Select

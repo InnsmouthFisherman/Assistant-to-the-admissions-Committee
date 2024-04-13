@@ -1,7 +1,8 @@
 import { Routes, Route, Link } from "react-router-dom";
 import Registration from "./component/RegistrationSection";
+import SelectionFunction from "./component/student-analysis/SelectionFunction";
 import Application from "./component/Application";
-import Analysis from "./component/student-analysis/Analysis";
+import PortraitApplican from "./component/student-analysis/PortraitApplicant";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -13,14 +14,13 @@ const darkTheme = createTheme({
 
 export default function App() {
   return (
-    // <Routes>
-    //   <Route path="/" element={<Registration />} />
-    //   <Route path="/analysis" element={<Analysis />} />
-    // </Routes>
+    <Routes>
+      <Route path="/" element={<SelectionFunction />} />
+      <Route path="/portrait" element={<PortraitApplican />} />
+    </Routes>
     // <ThemeProvider theme={darkTheme}>
     //   <CssBaseline />
     //   <Analysis />
     // </ThemeProvider>
-    <Registration />
   );
 }

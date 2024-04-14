@@ -18,8 +18,14 @@ import Select from "@mui/material/Select";
 
 export default function SelectionFunction() {
   const navigate = useNavigate();
-  const handleSubmit = async () => {
+  const handleNavigatePortrait = async () => {
     navigate("/portrait");
+  };
+  const handleNavigateFilter = async () => {
+    navigate("/filter");
+  };
+  const handleNavigateSearch = async () => {
+    navigate("/dataSearch");
   };
   return (
     <>
@@ -49,7 +55,7 @@ export default function SelectionFunction() {
           variant="contained"
           fullWidth
           style={{ marginTop: 20 }}
-          onClick={handleSubmit}
+          onClick={handleNavigatePortrait}
         >
           Составить портрет
         </Button>
@@ -57,7 +63,7 @@ export default function SelectionFunction() {
           variant="contained"
           fullWidth
           style={{ marginTop: 20 }}
-          onClick={handleSubmit}
+          onClick={handleNavigateFilter}
         >
           Отфильтровать
         </Button>
@@ -65,7 +71,7 @@ export default function SelectionFunction() {
           variant="contained"
           fullWidth
           style={{ marginTop: 20 }}
-          onClick={handleSubmit}
+          onClick={handleNavigateSearch}
         >
           Поиск данных
         </Button>

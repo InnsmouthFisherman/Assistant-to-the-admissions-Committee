@@ -1,28 +1,31 @@
 from fastapi import APIRouter
-from .analytics import result, get_ages, get_cities, students_n_score_plus, submission_of_documents
+from .analytics import result, get_ages, get_cities, students_n_score_plus, submission_of_documents, data2_table, get_schools, mean_points_ege, direction_priority
 
 router = APIRouter(
     prefix="/analytics",
     tags=["analytics"]
 )
 
-# сейчас у нас есть функции:
-# для результатов егэ students_n_score_plus()
-# формы подачи документов submission_of_documents()
-# возрастов get_ages()
-# городов и школ get_cities()
-# необходимо чтобы функция принимала нужные параметры (которые могут быть необязательными) и возвращала данные всех
-# функций, для которых указаны нужные параметры
 @router.post("/")
-def analytics(score=False, way=False, age=False, city=False):
-    parametrs = {}
-    if score:
-        parametrs['score'] = students_n_score_plus(score)
-    if way:
-        parametrs['way'] = submission_of_documents(way)
-    if age:
-        parametrs['age'] = get_ages()
-    if city:
-        parametrs['city'] = get_cities()
-    return parametrs
+def portrait_users(*args): pass
 
+
+
+
+
+@router.post("/filter")
+def filter(score, way):
+    students_result = students_n_score_plus(data2_table, score)
+    students_result2 = submission_of_documents(data2_table, way)
+    result = {"points": students_result, "way": students_result2}
+    return result
+
+@router.get("/search_data")
+def search():
+    stud_age = get_ages(data2_table)
+    stud_cities = get_cities(data2_table)
+    stud_school = get_schools(data2_table)
+    stud_ege = mean_points_ege(data2_table)
+    stud_prior = direction_priority(data2_table)
+    result = {"age": stud_age, "city": stud_cities, "school": stud_school, "ege": stud_ege, "priotity": stud_prior}
+    return result

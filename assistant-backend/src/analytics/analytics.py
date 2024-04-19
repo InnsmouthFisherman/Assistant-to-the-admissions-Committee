@@ -91,32 +91,31 @@ def convert_DataFrame(dataframe):
         result_dict[column] = list(data[column].values)
     return result_dict
 
-def portrait_of_student(dataframe):
+def portrait_of_student(dataframe, **kwargs):
     '''Функция на вход получает DataFrame таблицу, показывет портрет абитуриента, то есть
-       медианное значения для числовых столбцов и значение моды для категориальных столбцов.
-       Возвращает словарь, где ключ это название столбца, а значение значение моды или медианны'''
+    медианное значения для числовых столбцов и значение моды для категориальных столбцов.
+    Возвращает словарь, где ключ это название столбца, а значение значение моды или медианны'''
     
-    dataframe["Иностранный язык"] = dataframe["Иностранный язык"].fillna("Не указан")
-    dataframe["Сумма баллов"] = dataframe["Сумма баллов"].fillna(0)
-    dataframe["Сумма баллов за индивидуальные достижения"] = dataframe["Сумма баллов за индивидуальные достижения"].fillna(0)
-    dataframe["Средний балл ЕГЭ"] = dataframe["Средний балл ЕГЭ"].fillna(0)
+    dataframe = copy.deepcopy(dataframe)
 
-    columns = ["Пол", "Тип УЛ", "Кем выдано УЛ", "Иностранный язык", "Приемная кампания", 
-               "Общее состояние", "Форма сдачи ВИ", "Вид заявления", "Полученное образование",
-               "Документ о полученном образовании", "Форма получения док. об образ.", 'Ср. балл док-та об образовании',
-               "Вид возмещения затрат", "Форма обучения", "Вид приема", "Филиал", "Формирующее подр.", "Направление подготовки",
-               "Сумма баллов", "Способ подачи документов", "Сумма баллов за индивидуальные достижения", "Средний балл ЕГЭ"]
-    
-    result_dict = {}
-    for column in columns:
+    for column in dataframe.columns:
         if dataframe[column].dtype == object:
-            if column == "Средний балл ЕГЭ":
-                result_dict[column] = statistics.mode([el for el in dataframe[column] if el != "0"])
-            else:
-                result_dict[column] = dataframe[column].mode()[0]
-        else:
-                result_dict[column] = dataframe[column].mean().round(2)
+            dataframe[column] = dataframe[column].fillna("Не указано")
+    else:
+        dataframe[column] = dataframe[column].fillna(0)
+
+    for column, value in kwargs.items():
+        dataframe = dataframe[dataframe[column] == value]
+
+    result_dict = {}
+    for column in dataframe:
+        if dataframe[column].dtype == object:
+            result_dict[column] = list(dataframe[column].mode())
+    else:
+        result_dict[column] = [dataframe[column].mean().round(2), dataframe[column].median().round(2)]
+
     return result_dict
+
 
 
 def get_ages(table):

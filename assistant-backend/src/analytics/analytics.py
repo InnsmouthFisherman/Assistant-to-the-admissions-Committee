@@ -59,7 +59,9 @@ def students_n_score_plus(table, score):
 
     result_df = data.loc[boolean_list].fillna("-").drop_duplicates()
 
-    for column in result_df:
+    result_df.drop("Дата рождения", axis=1, inplace=True)
+
+    for column in result_df.columns:
         result_df[column] = result_df[column].astype(object)
         
     return result_df

@@ -58,6 +58,10 @@ def students_n_score_plus(table, score):
             boolean_list.append(False)
 
     result_df = data.loc[boolean_list].fillna("-").drop_duplicates()
+
+    for column in result_df:
+        result_df[column] = result_df[column].astype(object)
+        
     return result_df
  
 def submission_of_documents(table, way):

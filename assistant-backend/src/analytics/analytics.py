@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 import copy
 import statistics
+import json
 
 #---------------------------------------------------------------------------------------------------------------------
 #Загрузка данных
@@ -97,11 +98,12 @@ def convert_DataFrame(dataframe):
         result_dict[column] = list(data[column].values)
     return result_dict
 
-def portrait_of_student(dataframe, **kwargs):
+def portrait_of_student(dataframe, data):
     '''Функция на вход получает DataFrame таблицу, показывет портрет абитуриента, то есть
     медианное значения для числовых столбцов и значение моды для категориальных столбцов.
     Возвращает словарь, где ключ это название столбца, а значение значение моды или медианны'''
-    
+
+    file = json.loads(data)
     dataframe = copy.deepcopy(dataframe)
 
     for column in dataframe.columns:
@@ -110,7 +112,7 @@ def portrait_of_student(dataframe, **kwargs):
     else:
         dataframe[column] = dataframe[column].fillna(0)
 
-    for column, value in kwargs.items():
+    for column, value in file.items():
         dataframe = dataframe[dataframe[column] == value]
 
     result_dict = {}
@@ -121,7 +123,6 @@ def portrait_of_student(dataframe, **kwargs):
         result_dict[column] = [dataframe[column].mean().round(2), dataframe[column].median().round(2)]
 
     return result_dict
-
 
 
 def get_ages(table):

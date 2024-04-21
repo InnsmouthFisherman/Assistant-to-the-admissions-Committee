@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
+from pydantic import BaseModel
 from .analytics import get_ages, get_cities, students_n_score_plus, submission_of_documents, data2_table, data_table, get_schools, mean_points_ege, direction_priority, portrait_of_student, convert_DataFrame
 import json
 
@@ -9,6 +10,10 @@ router = APIRouter(
 
 result = None
 
+class Filter(BaseModel):
+    score: int = Body(90, example=90)
+    way: str = Body("Лично", example="Лично")
+    
 @router.post("/portrait")
 def portrait_users(data):
     students_portrait = portrait_of_student(data2_table, data)
@@ -16,7 +21,9 @@ def portrait_users(data):
 
 # сделать фильтры опциональными
 @router.post("/filter")
-def filter(score, way):
+def filter(filter: Filter):
+    score = filter.score
+    way = filter.way
     students_result = students_n_score_plus(data2_table, int(score))
     students_result2 = submission_of_documents(data2_table, way)
     students_result = convert_DataFrame(students_result)
@@ -24,7 +31,7 @@ def filter(score, way):
     result = {"points": students_result, "way": students_result2}
     return result
 
-@router.get("filter_result")
+@router.get("/filter_result")
 def filter_result():
     return result
 

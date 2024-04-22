@@ -14,7 +14,7 @@ function createData(name, calories, fat, carbs, protein) {
 
 const rows = [
   createData(
-    "18 (1488 чел.)",
+    "18 (1200 чел.)",
     "Тюмень (1337 чел.)",
     "0 (9999 чел)",
     "ПТУ (99999 чел)",

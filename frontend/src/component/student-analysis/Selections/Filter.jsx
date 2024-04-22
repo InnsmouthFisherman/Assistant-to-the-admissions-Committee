@@ -42,11 +42,11 @@ export default function Filter() {
           <TextField
             autoFocus
             margin="normal"
-            id="userName"
-            label="Баллы"
+            id="Points"
+            label="Points"
             type="text"
             fullWidth
-            name={"userName"}
+            name={"Points"}
           />
           <Typography
             variant="h1"
@@ -60,11 +60,11 @@ export default function Filter() {
           <TextField
             autoFocus
             margin="normal"
-            id="userName"
+            id="way"
             label="Способ"
             type="text"
             fullWidth
-            name={"userName"}
+            name={"way"}
           />
 
           <Button variant="contained" fullWidth style={{ marginTop: 20 }}>

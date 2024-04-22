@@ -158,6 +158,9 @@ export default function PortraitApplican() {
               ></TextField>
             </Box>
           ))}
+        <Button variant="contained" fullWidth style={{ marginTop: 20 }}>
+          Составить портрет
+        </Button>
       </Box>
     </>
   );

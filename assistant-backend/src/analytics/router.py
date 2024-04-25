@@ -10,8 +10,6 @@ router = APIRouter(
     tags=["analytics"]
 )
 
-result = None
-
 class Filter(BaseModel):
     score: int = Body(80, example=80)
     way: str = Body("Лично", example="Лично")
@@ -266,6 +264,10 @@ class Portrait(BaseModel):
         }
     }
 
+
+result = None
+
+
 @router.post("/portrait")
 def portrait_users(portrait: Portrait):
     #kwargs = {}
@@ -283,8 +285,8 @@ def filter(filter: Filter):
     way = filter.way
     students_result = students_n_score_plus(data2_table, int(score))
     students_result2 = submission_of_documents(students_result, way)
-    students_result2 = convert_DataFrame(students_result2)
-    return students_result2
+    result = convert_DataFrame(students_result2)
+    return {"vse zbs (navernoe)": "pizdui na get"}
 
 @router.get("/filter_result")
 def filter_result():

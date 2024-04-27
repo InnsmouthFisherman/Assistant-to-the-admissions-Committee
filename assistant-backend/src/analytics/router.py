@@ -1,5 +1,4 @@
 from typing import Optional
-
 from fastapi import APIRouter, Body
 from pydantic import BaseModel
 from .analytics import get_ages, get_cities, students_n_score_plus, submission_of_documents, data2_table, data_table, get_schools, mean_points_ege, direction_priority, portrait_of_student, convert_DataFrame
@@ -265,9 +264,6 @@ class Portrait(BaseModel):
     }
 
 
-result = None
-
-
 @router.post("/portrait")
 def portrait_users(portrait: Portrait):
     #kwargs = {}
@@ -278,6 +274,8 @@ def portrait_users(portrait: Portrait):
     #return portrait_of_student(data2_table, **portrait)
     pass
 
+data = None
+
 # сделать фильтры раздельными(опциональными)
 @router.post("/filter")
 def filter(filter: Filter):
@@ -285,12 +283,16 @@ def filter(filter: Filter):
     way = filter.way
     students_result = students_n_score_plus(data2_table, int(score))
     students_result2 = submission_of_documents(students_result, way)
-    result = convert_DataFrame(students_result2)
+    global data
+    data = convert_DataFrame(students_result2)
     return {"vse zbs (navernoe)": "pizdui na get"}
+
 
 @router.get("/filter_result")
 def filter_result():
-    return result
+    global data
+    return data
+
 
 @router.get("/brief_analytics")
 def search():

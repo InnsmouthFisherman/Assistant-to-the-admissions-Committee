@@ -88,15 +88,11 @@ def submission_of_documents(table, way):
 # #---------------------------------------------------------------------------------------------------------------------
 
 def convert_DataFrame(dataframe):
-    '''Функция принимает DataFrame таблицу и преобразовывает ее в словарь(dict).
-       Возвращает словарь, где ключ это название столбца, а значение список значений этого столбца'''
+    '''Функция принимает DataFrame таблицу и преобразовывает ее в список словарей.
+       Возвращает спиок, где ключи это названия столбцов, а значение значение этого столбца'''
        
     data = copy.deepcopy(dataframe).drop_duplicates()
-    columns = data.columns
-    result_dict = {}
-    for column in columns:
-        result_dict[column] = list(data[column].values)
-    return result_dict
+    return data.to_dict(orient='records')
 
 def portrait_of_student(dataframe, data):
     '''Функция на вход получает DataFrame таблицу, показывет портрет абитуриента, то есть

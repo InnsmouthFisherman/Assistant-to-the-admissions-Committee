@@ -1,7 +1,8 @@
 from typing import Optional
 from fastapi import APIRouter, Body
 from pydantic import BaseModel
-from .analytics import get_ages, get_cities, students_n_score_plus, submission_of_documents, data2_table, data_table, get_schools, mean_points_ege, direction_priority, portrait_of_student, convert_DataFrame
+from .analytics import get_ages, get_cities, students_n_score_plus, submission_of_documents, data2_table, data_table, \
+    get_schools, mean_points_ege, direction_priority, portrait_of_student, convert_DataFrame
 import json
 
 router = APIRouter(
@@ -9,9 +10,12 @@ router = APIRouter(
     tags=["analytics"]
 )
 
+
 class Filter(BaseModel):
     score: int = Body(80, example=80)
     way: str = Body("Лично", example="Лично")
+
+
 '''
 class Portrait(BaseModel):
     name: Optional[str] = None
@@ -134,12 +138,14 @@ class Portrait(BaseModel):
     the_order_of_enrollment: Optional[str] = None
     average_exam_score: Optional[str] = None
 '''
+
+
 class Portrait(BaseModel):
     model_config = {
         "json_schema_extra": {
-           "examples": [
-               {
-                   "name": "string",
+            "examples": [
+                {
+                    "name": "string",
                     "last_name": "string",
                     "patronymic": "string",
                     "sex": "string",
@@ -258,23 +264,25 @@ class Portrait(BaseModel):
                     "the_contract_has_been_paid": "string",
                     "the_order_of_enrollment": "string",
                     "average_exam_score": "string",
-               }
-           ]
+                }
+            ]
         }
     }
 
 
 @router.post("/portrait")
 def portrait_users(portrait: Portrait):
-    #kwargs = {}
-    #for key, value in portrait.__dict__.items():
+    # kwargs = {}
+    # for key, value in portrait.__dict__.items():
     #    kwargs[key] = value
-    #students_portrait = portrait_of_student(data2_table, **kwargs)
-    #return students_portrait
-    #return portrait_of_student(data2_table, **portrait)
+    # students_portrait = portrait_of_student(data2_table, **kwargs)
+    # return students_portrait
+    # return portrait_of_student(data2_table, **portrait)
     pass
 
+
 data = None
+
 
 # сделать фильтры раздельными(опциональными)
 @router.post("/filter")
@@ -303,3 +311,6 @@ def search():
     stud_prior = direction_priority(data2_table)
     result = {"age": stud_age, "city": stud_cities, "school": stud_school, "ege": stud_ege, "priotity": stud_prior}
     return result
+
+
+

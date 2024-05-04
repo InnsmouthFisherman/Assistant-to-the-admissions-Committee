@@ -1,10 +1,26 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import React from "react";
+import axios from "axios";
 import { useState } from "react";
 import { Typography, Box, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
+import { Link, Router, useNavigate } from "react-router-dom";
+
+const filterUrl = "http://127.0.0.1:5000/analytics/filter";
 
 export default function Filter() {
+  const [points, setPoints] = useState("");
+  const [way, setWay] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSubmitFilter = async () => {
+    const resp = await axios.post(filterUrl, { points, way });
+
+    navigate("/filterResult");
+    console.log(resp);
+  };
+
   return (
     <>
       <CssBaseline />
@@ -47,6 +63,8 @@ export default function Filter() {
             type="text"
             fullWidth
             name={"Points"}
+            value={points}
+            onChange={(e) => setPoints(e.target.value)}
           />
           <Typography
             variant="h1"
@@ -65,9 +83,16 @@ export default function Filter() {
             type="text"
             fullWidth
             name={"way"}
+            value={way}
+            onChange={(e) => setWay(e.target.value)}
           />
 
-          <Button variant="contained" fullWidth style={{ marginTop: 20 }}>
+          <Button
+            variant="contained"
+            fullWidth
+            style={{ marginTop: 20 }}
+            onClick={handleSubmitFilter}
+          >
             Отфильтровать
           </Button>
         </Box>

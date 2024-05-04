@@ -6,9 +6,9 @@ import PortraitApplican from "./component/student-analysis/Selections/PortraitAp
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import DataSearch from "./component/student-analysis/Selections/DataSearch";
-import Filter from "./component/student-analysis/Selections/Filter";
+import Filter from "./component/student-analysis/Selections/filter/Filter";
 import InstallTably from "./component/student-analysis/InstallTablу";
-
+import FilterResult from "./component/student-analysis/Selections/filter/FilterResult";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -23,6 +23,7 @@ export default function App() {
       <Route path="/portrait" element={<PortraitApplican />} />
       <Route path="/filter" element={<Filter />} />
       <Route path="/dataSearch" element={<DataSearch />} />
+      <Route path="/filterResult" element={<FilterResult />} />
     </Routes>
     // <DataSearch theme={darkTheme}>
     //   <CssBaseline />

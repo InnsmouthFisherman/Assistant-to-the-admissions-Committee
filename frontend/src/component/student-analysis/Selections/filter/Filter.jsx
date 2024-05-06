@@ -9,13 +9,15 @@ import { Link, Router, useNavigate } from "react-router-dom";
 const filterUrl = "http://127.0.0.1:5000/analytics/filter";
 
 export default function Filter() {
-  const [points, setPoints] = useState("");
+  const [point, setPoint] = useState("");
   const [way, setWay] = useState("");
+  const points = Number(point);
 
   const navigate = useNavigate();
 
   const handleSubmitFilter = async () => {
     const resp = await axios.post(filterUrl, { points, way });
+    console.log(resp);
 
     navigate("/filterResult");
     console.log(resp);
@@ -60,11 +62,11 @@ export default function Filter() {
             margin="normal"
             id="Points"
             label="Points"
-            type="text"
+            type="number"
             fullWidth
             name={"Points"}
-            value={points}
-            onChange={(e) => setPoints(e.target.value)}
+            value={point}
+            onChange={(e) => setPoint(e.target.value)}
           />
           <Typography
             variant="h1"

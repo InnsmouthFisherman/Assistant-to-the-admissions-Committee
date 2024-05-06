@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from .analytics import get_ages, get_cities, students_n_score_plus, submission_of_documents, data2_table, data_table, \
     get_schools, mean_points_ege, direction_priority, portrait_of_student, convert_DataFrame
 import json
+from translation import translation
 
 router = APIRouter(
     prefix="/analytics",
@@ -277,7 +278,10 @@ def portrait_users(portrait: Portrait):
     portrait = portrait_of_student(data2_table, kwargs)
     return portrait
 
-# добавить получение всех полей таблицы
+
+@router.get("/all_fields")
+def get_fields():
+    return [key for key in translation.keys()]
 
 
 # сделать фильтры раздельными(опциональными)

@@ -12,9 +12,8 @@ router = APIRouter(
 
 
 class Filter(BaseModel):
-    score: int
-    way: str
-
+    score: int = Body(80, example=80)
+    way: str = Body("Лично", example="Лично")
 
 
 class Portrait(BaseModel):
@@ -267,9 +266,6 @@ class Portrait(BaseModel):
     }
 
 
-data = None
-portrait_ = None
-
 @router.post("/portrait") # <-- возвращает поля которые не None.
 def portrait_users(portrait: Portrait):
     kwargs = {}
@@ -278,32 +274,20 @@ def portrait_users(portrait: Portrait):
         if field != "None":
             kwargs[name] = field
 
-    global portrait_
-    portrait_ = portrait_of_student(data2_table, kwargs)
-    return {"zbs": "zbs"}
+    portrait = portrait_of_student(data2_table, kwargs)
+    return portrait
 
-
-@router.get("/portrait/result")
-def portrait_result():
-    global portrait_
-    return portrait_
+# добавить получение всех полей таблицы
 
 
 # сделать фильтры раздельными(опциональными)
-@router.post("/filter")
+@router.get("/filter")
 def filter(filter: Filter):
     score = filter.score
     way = filter.way
     students_result = students_n_score_plus(data2_table, int(score))
     students_result2 = submission_of_documents(students_result, way)
-    global data
     data = convert_DataFrame(students_result2)
-    return {"vse zbs (navernoe)": "pizdui na get"}
-
-
-@router.get("/filter_result")
-def filter_result():
-    global data
     return data
 
 

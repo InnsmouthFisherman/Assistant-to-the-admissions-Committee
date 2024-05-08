@@ -94,7 +94,7 @@ def convert_DataFrame(dataframe):
     data = copy.deepcopy(dataframe).drop_duplicates()
     return data.to_dict(orient='records')
 
-def portrait_of_student(dataframe, data):
+def portrait_of_student(dataframe, data=None):
     '''Функция на вход получает DataFrame таблицу, показывет портрет абитуриента, то есть
     медианное значения для числовых столбцов и значение моды для категориальных столбцов.
     Возвращает словарь, где ключ это название столбца, а значение значение моды или медианны'''
@@ -109,8 +109,11 @@ def portrait_of_student(dataframe, data):
         dataframe[column] = dataframe[column].fillna(0)
 
     for column, value in data.items():
-        dataframe = dataframe[dataframe[column] == value]
-
+        if dataframe[column].dtype == object:
+            dataframe = dataframe[dataframe[column] == value]
+        else:
+            dataframe = dataframe[dataframe[column] >= value] 
+            
     result_dict = {}
     for column in dataframe:
         if dataframe[column].dtype == object:

@@ -37,7 +37,7 @@ translation = {
     "Итоговое согласие": "Final_agreement", "Экзам. группа": "Exam_group", "Сумма баллов": "The_amount_of_points",
     "Результаты вступ. испытаний": "The_results_of_the_introduction_tests", "Русский язык": "Russian_language",
     "Обществознание": "Social_Studies",
-    "Композиция": "Composition", "Рисунок": "Drawing", "мат": "Math",
+    "Композиция": "Composition", "Рисунок": "Drawing", "мат": "math",
     "История ВО": "History_VO", "Математика ВО": "Mathematics_VO", "Физика ВО": "Physics_VO",
     "Русский язык ВО": "The_Russian_language_VO",
     "Информатика и информационно–коммуникационные технологии (ИКТ)": "Computer_science_and_information_and_communication_technologies",

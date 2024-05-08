@@ -98,7 +98,7 @@ class Portrait(BaseModel):
     social_studies: Optional[str] = None
     composition: Optional[str] = None
     drawing: Optional[str] = None
-    math: Optional[str] = None
+    math: Optional[int] = None
     history_vo: Optional[str] = None
     mathematics_vo: Optional[str] = None
     physics_vo: Optional[str] = None
@@ -136,7 +136,7 @@ class Portrait(BaseModel):
     the_contract_has_been_concluded: Optional[str] = None
     the_contract_has_been_paid: Optional[str] = None
     the_order_of_enrollment: Optional[str] = None
-    average_exam_score: Optional[int] = None
+    average_exam_score: Optional[str] = None
 
     model_config = {
         "json_schema_extra": {
@@ -222,7 +222,7 @@ class Portrait(BaseModel):
                     "social_studies": "None",
                     "composition": "None",
                     "drawing": "None",
-                    "math": "None",
+                    "math": 0,
                     "history_vo": "None",
                     "mathematics_vo": "None",
                     "physics_vo": "None",
@@ -260,7 +260,7 @@ class Portrait(BaseModel):
                     "the_contract_has_been_concluded": "None",
                     "the_contract_has_been_paid": "None",
                     "the_order_of_enrollment": "None",
-                    "average_exam_score": "None",
+                    "average_exam_score": "0",
                 }
             ]
         }
@@ -273,7 +273,7 @@ def portrait_users(portrait: Portrait):
     inv_translation = {v: k for k, v in translation.items()}
 
     for name, field in portrait.__dict__.items():
-        if field != "None":
+        if field != "None" and field != "0" and field != 0:
             kwargs[inv_translation[name]] = field
 
     portrait = portrait_of_student(data2_table, kwargs)

@@ -63,5 +63,5 @@ translation = {
     "Сумма баллов за индивидуальные достижения, учитываемые как преимущество": "The_amount_of_points_for_individual_achievements_counted_as_an_advantage",
     "Организация-заказчик": "The_customer_organization", "Целевая контрактная подготовка": "Targeted_contract_training",
     "Договор заключен": "The_contract_has_been_concluded", "Договор оплачен": "The_contract_has_been_paid",
-    "Приказ о зачислении": "The_order_of_enrollment", "Средний балл ЕГЭ": "Average_exam_score"
+    "Приказ о зачислении": "The_order_of_enrollment", "Средний балл ЕГЭ": "average_exam_score"
 }

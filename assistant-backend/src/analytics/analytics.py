@@ -99,7 +99,7 @@ def portrait_of_student(dataframe, data):
     медианное значения для числовых столбцов и значение моды для категориальных столбцов.
     Возвращает словарь, где ключ это название столбца, а значение значение моды или медианны'''
 
-    file = json.loads(data)
+    # file = json.loads(data)
     dataframe = copy.deepcopy(dataframe)
 
     for column in dataframe.columns:
@@ -108,7 +108,7 @@ def portrait_of_student(dataframe, data):
     else:
         dataframe[column] = dataframe[column].fillna(0)
 
-    for column, value in file.items():
+    for column, value in data.items():
         dataframe = dataframe[dataframe[column] == value]
 
     result_dict = {}
@@ -116,7 +116,7 @@ def portrait_of_student(dataframe, data):
         if dataframe[column].dtype == object:
             result_dict[column] = list(dataframe[column].mode())
     else:
-        result_dict[column] = [dataframe[column].mean().round(2), dataframe[column].median().round(2)]
+        result_dict[column] = [str(round(dataframe[column].mean(), 2)), str(round(dataframe[column].median(), 2))]
 
     return result_dict
 

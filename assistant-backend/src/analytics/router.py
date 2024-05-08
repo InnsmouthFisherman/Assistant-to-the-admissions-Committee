@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from .analytics import get_ages, get_cities, students_n_score_plus, submission_of_documents, data2_table, data_table, \
     get_schools, mean_points_ege, direction_priority, portrait_of_student, convert_DataFrame
 import json
-from translation import translation
+from .translation import translation
 
 router = APIRouter(
     prefix="/analytics",
@@ -136,7 +136,7 @@ class Portrait(BaseModel):
     the_contract_has_been_concluded: Optional[str] = None
     the_contract_has_been_paid: Optional[str] = None
     the_order_of_enrollment: Optional[str] = None
-    average_exam_score: Optional[str] = None
+    average_exam_score: Optional[int] = None
 
     model_config = {
         "json_schema_extra": {
@@ -267,13 +267,14 @@ class Portrait(BaseModel):
     }
 
 
-@router.post("/portrait") # <-- возвращает поля которые не None.
+@router.post("/portrait")
 def portrait_users(portrait: Portrait):
     kwargs = {}
+    inv_translation = {v: k for k, v in translation.items()}
 
     for name, field in portrait.__dict__.items():
         if field != "None":
-            kwargs[name] = field
+            kwargs[inv_translation[name]] = field
 
     portrait = portrait_of_student(data2_table, kwargs)
     return portrait

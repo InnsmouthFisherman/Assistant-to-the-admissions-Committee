@@ -101,7 +101,8 @@ def portrait_of_student(dataframe, data=None):
 
     # file = json.loads(data)
     dataframe = copy.deepcopy(dataframe)
-
+    mean_point_ege = np.array(list((map(lambda x: float(str(x).replace(",", ".")), dataframe["Средний балл ЕГЭ"]))))
+    dataframe["Средний балл ЕГЭ"] = mean_point_ege
     for column in dataframe.columns:
         if dataframe[column].dtype == object:
             dataframe[column] = dataframe[column].fillna("Не указано")
@@ -121,7 +122,7 @@ def portrait_of_student(dataframe, data=None):
         else:
             result_dict[column] = [round(dataframe[column].mean(), 2),round(dataframe[column].median(), 2)]
 
-    return result_dict
+    return dataframe
 
 
 def get_ages(table):

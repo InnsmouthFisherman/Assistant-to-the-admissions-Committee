@@ -105,8 +105,8 @@ def portrait_of_student(dataframe, data=None):
     for column in dataframe.columns:
         if dataframe[column].dtype == object:
             dataframe[column] = dataframe[column].fillna("Не указано")
-    else:
-        dataframe[column] = dataframe[column].fillna(0)
+        else:
+            dataframe[column] = dataframe[column].fillna(0)
 
     for column, value in data.items():
         if dataframe[column].dtype == object:
@@ -118,8 +118,8 @@ def portrait_of_student(dataframe, data=None):
     for column in dataframe:
         if dataframe[column].dtype == object:
             result_dict[column] = list(dataframe[column].mode())
-    else:
-        result_dict[column] = [str(round(dataframe[column].mean(), 2)), str(round(dataframe[column].median(), 2))]
+        else:
+            result_dict[column] = [round(dataframe[column].mean(), 2),round(dataframe[column].median(), 2)]
 
     return result_dict
 

@@ -286,7 +286,7 @@ def get_fields():
 
 
 # сделать фильтры раздельными(опциональными)
-@router.get("/filter")
+@router.post("/filter")
 def filter(filter: Filter):
     score = filter.score
     way = filter.way

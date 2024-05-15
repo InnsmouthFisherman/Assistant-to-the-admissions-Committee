@@ -7,8 +7,7 @@ import Button from "@mui/material/Button";
 
 const url = "http://127.0.0.1:5000/auth/register ";
 
-export default function Registration() {
-  const [userName, setUserName] = useState(""); 
+export default function Enter() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -16,7 +15,6 @@ export default function Registration() {
   const handleSubmit = async () => {
     console.log('Email:', email);
     console.log('Password:', password);
-    console.log('Username:', userName);
     navigate("/install/:type");
 
     try {
@@ -26,19 +24,14 @@ export default function Registration() {
         is_active: true,
         is_superuser: false,
         is_verified: false,
-        userName,
       });
     } catch (error) {
       console.error('Ошибка при отправке запроса:', error);
     }
   };
-  const handleEnter = async () => {
-    navigate("/Enter/:type")
-  }
+  
 
-  const userNameValidate  = (e) => {
-    setUserName(e.target.value);
-  };
+  
 
   const emailValidate = (e) => {
     setEmail(e.target.value); 
@@ -70,7 +63,7 @@ export default function Registration() {
           lineHeight="23px"
           marginBottom="38px"
         >
-          Регистрация
+          Вход
         </Typography>
         {/* <TextField
           autoFocus
@@ -80,16 +73,7 @@ export default function Registration() {
           type="text"
           fullWidth
         /> */}
-        <TextField
-          autoFocus
-          margin="dense"
-          id="userName"
-          label="Имя"
-          type="text"
-          fullWidth
-          name="userName"
-          onChange={userNameValidate}
-        />
+        
         <TextField
           autoFocus
           margin="dense"
@@ -112,22 +96,14 @@ export default function Registration() {
           onChange={passwordValidate} 
         />
 
+        
         <Button
           onClick={handleSubmit}
           variant="contained"
           fullWidth
           style={{ marginTop: 20 }}
         >
-          Регистрация
-        </Button>
-        <Button
-          onClick={handleEnter}
-          variant="contained"
-          fullWidth
-          style={{ marginTop: 20}}
-          
-        >
-          Вход
+          Войти
         </Button>
 
       </Box>

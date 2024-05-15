@@ -9,6 +9,7 @@ import DataSearch from "./component/student-analysis/Selections/DataSearch";
 import Filter from "./component/student-analysis/Selections/filter/Filter";
 import InstallTably from "./component/student-analysis/InstallTablу";
 import FilterResult from "./component/student-analysis/Selections/filter/FilterResult";
+import Enter from "./component/student-analysis/Selections/EnterSection"
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -18,13 +19,14 @@ const darkTheme = createTheme({
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<InstallTably />} />
-      <Route path="/selectFunc" element={<SelectionFunction />} />
-      <Route path="/portrait" element={<PortraitApplican />} />
-      <Route path="/filter" element={<Filter />} />
-      <Route path="/dataSearch" element={<DataSearch />} />
-      <Route path="/filterResult" element={<FilterResult />} />
-    </Routes>
+    <Route path="/" element={<Registration />} />
+    <Route path="/Enter/:type" element={<Enter />} />
+    <Route path="/install/:type" element={<InstallTably />} />
+    <Route path="/selectFunc" element={<SelectionFunction />} />
+    <Route path="/portrait" element={<PortraitApplican />} />
+    <Route path="/filter" element={<Filter />} />
+    <Route path="/dataSearch" element={<DataSearch />} />
+  </Routes>
     // <DataSearch theme={darkTheme}>
     //   <CssBaseline />
     //   <Analysis />

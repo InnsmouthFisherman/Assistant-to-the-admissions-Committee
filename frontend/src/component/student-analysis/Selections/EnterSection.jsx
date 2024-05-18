@@ -5,7 +5,7 @@ import { Link, Router, useNavigate } from "react-router-dom";
 import { Typography, Box, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 
-const url = "http://127.0.0.1:5000/auth/register ";
+const url = "http://127.0.0.1:5000/auth/jwt/login ";
 
 export default function Enter() {
   const [email, setEmail] = useState("");

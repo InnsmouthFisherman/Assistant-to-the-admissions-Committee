@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 const url = "http://127.0.0.1:5000/auth/register ";
 
 export default function Registration() {
-  const [userName, setUserName] = useState(""); 
+  const [username, setUserName] = useState(""); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function Registration() {
   const handleSubmit = async () => {
     console.log('Email:', email);
     console.log('Password:', password);
-    console.log('Username:', userName);
+    console.log('Username:', username);
     navigate("/install/:type");
 
     try {
@@ -26,7 +26,7 @@ export default function Registration() {
         is_active: true,
         is_superuser: false,
         is_verified: false,
-        userName,
+        username,
       });
     } catch (error) {
       console.error('Ошибка при отправке запроса:', error);

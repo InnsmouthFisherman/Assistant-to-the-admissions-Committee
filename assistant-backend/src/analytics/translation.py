@@ -28,7 +28,7 @@ translation = {
     "Вид приема": "Type_of_reception", "Дополнительный набор": "Additional_set", "Приоритет": "Priority",
     "Сквозной приоритет": "End_to_end_priority", "Филиал": "Branch", "Формирующее подр.": "The_forming_unit",
     "Направление подготовки": "The_direction_of_education", "Набор ОП": "Set_OP", "Выбранные ОП": "Selected_OP",
-    "Целевой прием": "CP", "Набор версий ОП для ЦП": "A_set_of_versions_OP_for_CP", "Вид целевого приема": "Type_of_CP",
+    "Целевой прием": "cp", "Набор версий ОП для ЦП": "A_set_of_versions_OP_for_CP", "Вид целевого приема": "Type_of_CP",
     "Организация ЦП": "Organization_of_CP", "Без ВИ": "Without_VI", "Отдельная квота": "A_separate_quota",
     "Особая квота": "Special_quota", "Поступает на параллельное обучение": "Enrolls_in_parallel_education",
     "Состояние выбран. конкурса": "Status_of_the_selected_contest",

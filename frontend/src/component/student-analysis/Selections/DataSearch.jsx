@@ -40,7 +40,7 @@ const DataSearch = () => {
         const ages = Object.keys(ageData).map(age => `${age} (${ageData[age]})`);
         const cities = Object.keys(cityData).map(city => `${city} (${cityData[city]})`);
         const schools = Object.keys(schoolData).map(school => `${school} (${schoolData[school]})`);
-        const priorities = Object.keys(prioritiesData).map(priority => `${priority} (${prioritiesData[priority]})`);
+        const priorities = Object.keys(prioritiesData).map(priority => `${priority} (${prioritiesData[priority][1]})`);
         const docEdu = Object.keys(docEduData).map(doc => `${doc} (${docEduData[doc]})`);
         const sumEge = Object.keys(sumEgeData).map(sum => `${sum} (${sumEgeData[sum]})`);
         const avgEge = Object.keys(avgEgeData).map(avg => `${avg} (${avgEgeData[avg]})`);

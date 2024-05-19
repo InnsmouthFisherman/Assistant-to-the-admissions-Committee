@@ -106,25 +106,24 @@ export default function PortraitApplican() {
       <CssBaseline />
 
       <Box
-        bgcolor="#fbfae7"
-        // height={"100vh"}
-        // display={"flex"}
-        // flexDirection={"row"}
-        // alignItems={"flex-start"}
-        // margin="38px 0 0 38px"
+      // height={"100vh"}
+      // display={"flex"}
+      // flexDirection={"row"}
+      // alignItems={"flex-start"}
+      // margin="38px 0 0 38px"
       >
         <Typography
           variant="h1"
           fontWeight="500"
-          fontSize="50px"
+          fontSize="20px"
           lineHeight="23px"
-          marginBottom="68px"
-
+          sx={{ borderBottom: 1 }}
+          margin="38px 0 0 0"
           // position={"fixed"}
         >
-          Портрет
+          Параметры
         </Typography>
-        <FormControl sx={{ m: 1, minWidth: 250, margin: "38px 0 0 0" }}>
+        <FormControl sx={{ m: 1, minWidth: 250, margin: "38px 0 38px 0" }}>
           <InputLabel id="select-label-options">Добавить Параметр</InputLabel>
           <Select
             labelId="demo-simple-select-label"

@@ -1,10 +1,11 @@
 :root {
-  background: bgcolor= "#ffffff";
+  background: #fbfae7;
   height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  /* flex-direction: column; */
+  /* justify-content: center; */
   align-items: center;
+  margin-left: 100px;
 }
 /* * {
   margin: 0;

@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import DataSearch from "./component/student-analysis/Selections/DataSearch";
 import Filter from "./component/student-analysis/Selections/filter/Filter";
-import InstallTably from "./component/student-analysis/InstallTablу";
+import InstallTably from "./component/student-analysis/installTably/InstallTablу";
 import FilterResult from "./component/student-analysis/Selections/filter/FilterResult";
 const darkTheme = createTheme({
   palette: {

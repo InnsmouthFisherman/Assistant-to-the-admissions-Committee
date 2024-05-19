@@ -16,7 +16,7 @@ export default function InstallTably() {
       <Box>
         <Typography
           variant="h1"
-          color="#30507d"
+          color="#A3A5AC"
           fontWeight="500"
           fontSize="25px"
           lineHeight="23px"
@@ -26,7 +26,6 @@ export default function InstallTably() {
         </Typography>
         <Button
           variant="contained"
-          fullWidth
           style={{ marginTop: 20 }}
           onClick={handleSelectionFunction}
         >

@@ -8,6 +8,7 @@ import {
   TextField,
   Input,
   stepContentClasses,
+  Container,
 } from "@mui/material";
 import { Link, Router, useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
@@ -30,51 +31,132 @@ export default function SelectionFunction() {
   return (
     <>
       <CssBaseline />
-      <Box
-        maxWidth="415px"
-        width="100%"
-        bgcolor="#ffffff"
-        boxShadow="0px 6px 50px rgba(217, 229, 225, 0.7)"
-        borderRadius="20px"
-        paddingLeft="30px"
-        paddingRight="30px"
-        paddingTop="38px"
-        paddingBottom="38px"
-      >
-        <Typography
-          variant="h1"
-          color="#30507d"
-          fontWeight="500"
-          fontSize="20px"
-          lineHeight="23px"
-          marginBottom="38px"
-        >
-          Выберите действие
-        </Typography>
-        <Button
-          variant="contained"
-          fullWidth
-          style={{ marginTop: 20 }}
-          onClick={handleNavigatePortrait}
-        >
-          Составить портрет
-        </Button>
-        <Button
-          variant="contained"
-          fullWidth
-          style={{ marginTop: 20 }}
-          onClick={handleNavigateFilter}
-        >
-          Отфильтровать
-        </Button>
-        <Button
-          variant="contained"
-          fullWidth
-          style={{ marginTop: 20 }}
-          onClick={handleNavigateSearch}
-        >
-          Поиск данных
-        </Button>
+      <Box display="flex" bgcolor="#fbfae7">
+        <Box marginRight="300px">
+          <Typography
+            variant="h1"
+            color="#000000"
+            fontWeight="500"
+            fontSize="100px"
+            lineHeight="23px"
+            marginBottom="68px"
+          >
+            Меню
+          </Typography>
+          <Box
+            maxWidth="415px"
+            width="100%"
+            borderRadius="20px"
+            paddingLeft="60px"
+            paddingRight="60px"
+            paddingTop="38px"
+            paddingBottom="38px"
+          >
+            <Typography
+              variant="h1"
+              color="#C4D1D4"
+              fontWeight="500"
+              fontSize="30px"
+              lineHeight="23px"
+              marginBottom="38px"
+            >
+              Выберите действие
+            </Typography>
+            <Button
+              variant="contained"
+              fullWidth
+              style={{ marginTop: 20 }}
+              onClick={handleNavigatePortrait}
+            >
+              Составить портрет
+            </Button>
+            <Button
+              variant="contained"
+              style={{ marginTop: 20 }}
+              onClick={handleNavigateFilter}
+              fullWidth
+            >
+              Отфильтровать
+            </Button>
+            <Button
+              variant="contained"
+              style={{ marginTop: 20 }}
+              onClick={handleNavigateSearch}
+              fullWidth
+            >
+              Поиск данных
+            </Button>
+          </Box>
+        </Box>
+
+        <Box>
+          <Box>
+            <Typography
+              variant="h1"
+              color="#3F69FF"
+              fontWeight="500"
+              fontSize="30px"
+              lineHeight="23px"
+              marginBottom="38px"
+            >
+              Составить портрет:
+            </Typography>
+            <Typography
+              variant="h1"
+              color="#000000"
+              fontWeight="500"
+              fontSize="30px"
+              lineHeight="23px"
+              marginBottom="38px"
+            >
+              Находит среднее значение для выбранной группы людей
+            </Typography>
+          </Box>
+          <Box>
+            <Typography
+              variant="h1"
+              color="#3F69FF"
+              fontWeight="500"
+              fontSize="30px"
+              lineHeight="23px"
+              marginBottom="38px"
+            >
+              Отфильтровать:
+            </Typography>
+            <Typography
+              variant="h1"
+              color="#000000"
+              fontWeight="500"
+              fontSize="30px"
+              lineHeight="23px"
+              marginBottom="38px"
+            >
+              Находит людей по определенному признаку (баллы, город, школа ...)
+            </Typography>
+          </Box>
+          <Box>
+            <Typography
+              variant="h1"
+              color="#3F69FF"
+              fontWeight="500"
+              fontSize="30px"
+              lineHeight="23px"
+              marginBottom="38px"
+            >
+              Быстрая аналитика:
+            </Typography>
+            <Typography
+              variant="h1"
+              color="#000000"
+              fontWeight="500"
+              fontSize="30px"
+              lineHeight="23px"
+              marginBottom="38px"
+            >
+              Основные данные "выборки"(табл которую загружают)
+            </Typography>
+          </Box>
+        </Box>
       </Box>
     </>
   );

@@ -29,8 +29,7 @@ export default function Filter() {
       <Box
         maxWidth="415px"
         width="100%"
-        bgcolor="#ffffff"
-        boxShadow="0px 6px 50px rgba(217, 229, 225, 0.7)"
+        bgcolor="#FBFAE7"
         borderRadius="20px"
         paddingLeft="30px"
         paddingRight="30px"
@@ -39,23 +38,23 @@ export default function Filter() {
       >
         <Typography
           variant="h1"
-          color="#30507d"
+          color="#000000"
           fontWeight="500"
-          fontSize="25px"
+          fontSize="70px"
           lineHeight="23px"
-          marginBottom="38px"
+          marginBottom="68px"
         >
           Фильтр
         </Typography>
         <Box>
           <Typography
             variant="h1"
-            color="#30507d"
+            color="#1F1F1F"
             fontWeight="500"
             fontSize="20px"
             lineHeight="23px"
           >
-            Баллы
+            Кол-во баллов
           </Typography>
           <TextField
             autoFocus
@@ -70,7 +69,7 @@ export default function Filter() {
           />
           <Typography
             variant="h1"
-            color="#30507d"
+            color="#1F1F1F"
             fontWeight="500"
             fontSize="20px"
             lineHeight="23px"
@@ -91,7 +90,6 @@ export default function Filter() {
 
           <Button
             variant="contained"
-            fullWidth
             style={{ marginTop: 20 }}
             onClick={handleSubmitFilter}
           >

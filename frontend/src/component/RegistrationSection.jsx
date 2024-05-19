@@ -1,14 +1,28 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import axios from "axios";
-import { Link, Router, useNavigate } from "react-router-dom"; 
-import { Typography, Box, TextField } from "@mui/material";
+import { Link, Router, useNavigate } from "react-router-dom";
+import { Typography, Box, TextField, styled } from "@mui/material";
 import Button from "@mui/material/Button";
+import { createTheme } from '@mui/material/styles';
 
-const url = "http://127.0.0.1:5000/auth/register ";
+const url = "http://127.0.0.1:5000/auth/register";
+
+// Создание стилизованного компонента для контейнера Box
+const StyledBox = styled(Box)({
+  maxWidth: "415px",
+  width: "100%",
+  backgroundColor: "#FFFFFF", // Замените на нужный цвет фона
+  boxShadow: "0px 6px 50px rgba(217, 229, 225, 0.7)",
+  borderRadius: "20px",
+  paddingLeft: "30px",
+  paddingRight: "30px",
+  paddingTop: "38px",
+  paddingBottom: "38px",
+});
 
 export default function Registration() {
-  const [username, setUserName] = useState(""); 
+  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -36,35 +50,26 @@ export default function Registration() {
     navigate("/Enter/:type")
   }
 
-  const userNameValidate  = (e) => {
+  const userNameValidate = (e) => {
     setUserName(e.target.value);
   };
 
   const emailValidate = (e) => {
-    setEmail(e.target.value); 
+    setEmail(e.target.value);
   };
 
   const passwordValidate = (e) => {
-    setPassword(e.target.value); 
+    setPassword(e.target.value);
   };
 
   return (
     <>
       <CssBaseline />
-      <Box
-        maxWidth="415px"
-        width="100%"
-        bgcolor="#ffffff"
-        boxShadow="0px 6px 50px rgba(217, 229, 225, 0.7)"
-        borderRadius="20px"
-        paddingLeft="30px"
-        paddingRight="30px"
-        paddingTop="38px"
-        paddingBottom="38px"
-      >
+      {/* Использование стилизованного компонента StyledBox */}
+      <StyledBox>
         <Typography
           variant="h1"
-          color="#30507d"
+          
           fontWeight="500"
           fontSize="20px"
           lineHeight="23px"
@@ -72,14 +77,6 @@ export default function Registration() {
         >
           Регистрация
         </Typography>
-        {/* <TextField
-          autoFocus
-          margin="dense"
-          id="firstName"
-          label="Фамилия"
-          type="text"
-          fullWidth
-        /> */}
         <TextField
           autoFocus
           margin="dense"
@@ -98,7 +95,7 @@ export default function Registration() {
           type="email"
           fullWidth
           name="email"
-          onChange={emailValidate} 
+          onChange={emailValidate}
         />
 
         <TextField
@@ -109,7 +106,7 @@ export default function Registration() {
           type="password"
           fullWidth
           name="password"
-          onChange={passwordValidate} 
+          onChange={passwordValidate}
         />
 
         <Button
@@ -124,13 +121,12 @@ export default function Registration() {
           onClick={handleEnter}
           variant="contained"
           fullWidth
-          style={{ marginTop: 20}}
-          
+          style={{ marginTop: 20 }}
         >
           Вход
         </Button>
 
-      </Box>
+      </StyledBox>
     </>
   );
 }

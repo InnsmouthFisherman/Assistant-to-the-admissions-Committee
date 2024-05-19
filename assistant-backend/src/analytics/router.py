@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import APIRouter, Body
 from pydantic import BaseModel
 from .analytics import get_ages, get_cities, students_n_score_plus, submission_of_documents, data2_table, data_table, \
-    get_schools, mean_points_ege, direction_priority, portrait_of_student, convert_DataFrame
+    get_schools, direction_priority, portrait_of_student, convert_DataFrame, mean_ege_score, sum_scores, mean_point_document
 import json
 from .translation import translation
 
@@ -300,10 +300,12 @@ def filter(filter: Filter):
 def search():
     stud_age = get_ages(data2_table)
     stud_cities = get_cities(data2_table)
-    stud_school = get_schools(data_table)
-    stud_ege = mean_points_ege(data2_table)
+    stud_school = get_schools(data_table) # mean_ege_score, sum_scores, mean_point_document
+    stud_ege = mean_ege_score(data2_table)
+    stud_scores = sum_scores(data2_table)
+    stud_doc = mean_point_document(data2_table)
     stud_prior = direction_priority(data2_table)
-    result = {"age": stud_age, "city": stud_cities, "school": stud_school, "ege": stud_ege, "priotity": stud_prior}
+    result = {"age": stud_age, "city": stud_cities, "school": stud_school, "ege": stud_ege, "sum_ege": stud_scores, "doc_edu": stud_doc, "priotity": stud_prior}
     return result
 
 

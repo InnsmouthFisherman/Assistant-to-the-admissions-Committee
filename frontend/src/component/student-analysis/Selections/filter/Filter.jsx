@@ -9,14 +9,14 @@ import { Link, Router, useNavigate } from "react-router-dom";
 const filterUrl = "http://127.0.0.1:5000/analytics/filter";
 
 export default function Filter() {
-  const [point, setPoint] = useState("");
+  const [scores, setScore] = useState("");
   const [way, setWay] = useState("");
-  const points = Number(point);
+  const score = Number(scores);
 
   const navigate = useNavigate();
 
   const handleSubmitFilter = async () => {
-    const resp = await axios.post(filterUrl, { points, way });
+    const resp = await axios.post(filterUrl, { score, way });
     console.log(resp);
 
     navigate("/filterResult");
@@ -59,13 +59,13 @@ export default function Filter() {
           <TextField
             autoFocus
             margin="normal"
-            id="Points"
-            label="Points"
+            id="scores"
+            label="Бллы"
             type="number"
             fullWidth
-            name={"Points"}
-            value={point}
-            onChange={(e) => setPoint(e.target.value)}
+            name={"scores"}
+            value={scores}
+            onChange={(e) => setScore(e.target.value)}
           />
           <Typography
             variant="h1"

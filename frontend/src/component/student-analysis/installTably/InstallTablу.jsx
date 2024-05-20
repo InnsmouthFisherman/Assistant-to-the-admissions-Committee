@@ -13,7 +13,7 @@ export default function InstallTably() {
   return (
     <>
       <CssBaseline />
-      <Box>
+      <Box bgcolor="#FBFAE7">
         <Typography
           variant="h1"
           color="#A3A5AC"

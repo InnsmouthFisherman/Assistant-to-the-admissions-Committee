@@ -54,7 +54,7 @@ translation = {
     "Принял заявление": "Accepted_the_application",
     "Примечание к заявлению": "Note_to_the_statement",
     "Заявление подано доверенным лицом": "The_application_was_submitted_by_a_trusted_person",
-    "Способ подачи документов": "The_method_of_submitting_documents",
+    "Способ подачи документов": "the_method_of_submitting_documents",
     "Способ возврата документов": "Document_return_method", "Олимпиады": "Olympiads",
     "Результаты ЕГЭ": "USE_results", "Статус результатов ЕГЭ": "The_status_of_the_exam_results",
     "Баллы за индивидуальные достижения": "Points_for_individual_achievements",

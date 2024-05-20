@@ -60,7 +60,7 @@ export default function Filter() {
             autoFocus
             margin="normal"
             id="scores"
-            label="Бллы"
+            label="Баллы"
             type="number"
             fullWidth
             name={"scores"}

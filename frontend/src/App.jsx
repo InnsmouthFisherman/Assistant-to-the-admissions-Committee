@@ -2,7 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Registration from "./component/RegistrationSection";
 import SelectionFunction from "./component/student-analysis/SelectionFunction";
 import Application from "./component/Application";
-import PortraitApplican from "./component/student-analysis/Selections/PortraitApplicant";
+import PortraitApplican from "./component/student-analysis/Selections/portrait/PortraitApplicant";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import DataSearch from "./component/student-analysis/Selections/DataSearch";

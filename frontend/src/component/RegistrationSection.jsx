@@ -1,84 +1,75 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link, Router, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Typography, Box, TextField } from "@mui/material";
+import { Typography, Box, TextField, styled } from "@mui/material";
 import Button from "@mui/material/Button";
+import { createTheme } from '@mui/material/styles';
 
-const url = "http://127.0.0.1:5000/auth/register ";
+const url = "http://127.0.0.1:5000/auth/register";
+
+// Создание стилизованного компонента для контейнера Box
+const StyledBox = styled(Box)({
+  maxWidth: "415px",
+  width: "100%",
+  backgroundColor: "#FFFFFF", // Замените на нужный цвет фона
+  boxShadow: "0px 6px 50px rgba(217, 229, 225, 0.7)",
+  borderRadius: "20px",
+  paddingLeft: "30px",
+  paddingRight: "30px",
+  paddingTop: "38px",
+  paddingBottom: "38px",
+});
 
 export default function Registration() {
-  const [userName, setUserName] = useState("");
-  const [userNameDirty, setUserNameDirty] = useState(false);
-  const [userNameError, setUserNameError] = useState("");
+  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
-  const [emailDirty, setEmailDirty] = useState(false);
-  const [emailError, setEmailError] = useState("хуй ");
   const [password, setPassword] = useState("");
-  const [passwordDirty, setPasswordDirty] = useState(false);
-  const [passworError, setPasswordError] = useState(
-    "Пароль не может быть пустым"
-  );
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    const resp = await axios.post(url, {
-      email,
-      password,
-      is_active: true,
-      is_superuser: false,
-      is_verified: false,
-      username,
-    });
-    navigate("/analysis");
-  };
+    console.log('Email:', email);
+    console.log('Password:', password);
+    console.log('Username:', username);
+    navigate("/install/:type");
 
-  const blurHandler = (e) => {
-    switch (e.target.name) {
-      case "userName":
-        setUserNameDirty(true);
-        break;
-      case "email":
-        setEmailDirty(true);
-        break;
-      case "password":
-        setPasswordDirty(true);
-        break;
+    try {
+      const resp = await axios.post(url, {
+        email,
+        password,
+        is_active: true,
+        is_superuser: false,
+        is_verified: false,
+        username,
+      });
+    } catch (error) {
+      console.error('Ошибка при отправке запроса:', error);
     }
   };
+  const handleEnter = async () => {
+    navigate("/Enter/:type")
+  }
 
   const userNameValidate = (e) => {
-    if (setUserNameDirty() == true) {
-      setUserNameError("хуй");
-    }
-
-    // if (setUserName(e.Target.value) == "") {
-    //   setUserNameError("хуй");
+    setUserName(e.target.value);
   };
 
   const emailValidate = (e) => {
     setEmail(e.target.value);
-    setEmailError("хуй");
+  };
+
+  const passwordValidate = (e) => {
+    setPassword(e.target.value);
   };
 
   return (
     <>
       <CssBaseline />
-      <Box
-        maxWidth="415px"
-        width="100%"
-        bgcolor="#ffffff"
-        boxShadow="0px 6px 50px rgba(217, 229, 225, 0.7)"
-        borderRadius="20px"
-        paddingLeft="30px"
-        paddingRight="30px"
-        paddingTop="38px"
-        paddingBottom="38px"
-      >
+      {/* Использование стилизованного компонента StyledBox */}
+      <StyledBox>
         <Typography
           variant="h1"
-          color="#30507d"
+          
           fontWeight="500"
           fontSize="20px"
           lineHeight="23px"
@@ -87,49 +78,35 @@ export default function Registration() {
           Регистрация
         </Typography>
         <TextField
-          error={userNameError}
-          onBlure={(e) => blurHandler(e)}
           autoFocus
           margin="dense"
           id="userName"
           label="Имя"
           type="text"
           fullWidth
-          name={"userName"}
-          // helperText={userNameError}
-          // onChange={(e) => userNameValidate(e)}
+          name="userName"
+          onChange={userNameValidate}
         />
-        {/* <TextField
-          autoFocus
-          margin="dense"
-          id="firstName"
-          label="Фамилия"
-          type="text"
-          fullWidth
-        /> */}
         <TextField
-          // error={ }
-          onBlure={(e) => blurHandler(e)}
           autoFocus
           margin="dense"
           id="email"
           label="Email Adress"
           type="email"
           fullWidth
-          name={"email"}
-          // onChange={(e) => emailValidate(e)}
+          name="email"
+          onChange={emailValidate}
         />
 
         <TextField
           autoFocus
-          onBlure={(e) => blurHandler(e)}
           margin="dense"
           id="password"
           label="Password"
           type="password"
           fullWidth
-          name={"password"}
-          // onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          onChange={passwordValidate}
         />
 
         <Button
@@ -140,7 +117,16 @@ export default function Registration() {
         >
           Регистрация
         </Button>
-      </Box>
+        <Button
+          onClick={handleEnter}
+          variant="contained"
+          fullWidth
+          style={{ marginTop: 20 }}
+        >
+          Вход
+        </Button>
+
+      </StyledBox>
     </>
   );
 }

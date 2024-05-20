@@ -168,31 +168,32 @@ def get_schools(table):
 
     return counter_schools
 
+def mean_ege_score(df):
 
-
-def mean_points_ege(table):
-    '''Функция возвращает средний балл ЕГЭ, сумма баллов за ЕГЭ и средний балл документа об образовании'''
-    data = copy.deepcopy(table)
-
+    data = copy.deepcopy(df)
+    data = data.fillna("Не указано")
     mean_point_ege = data["Средний балл ЕГЭ"].values
     mean_point_ege = np.array(list((map(lambda x: str(x).replace(",", "."), mean_point_ege))))
-    without_nan = list(np.where(mean_point_ege != "nan", mean_point_ege, 0))
-    result_mean_point_ege = list(map(lambda x: int(float(x)), without_nan))
-    sorted_mean_point_ege = sorted(result_mean_point_ege)
 
-    # Средний балл за аттестат
-    mean_point_att = data["Ср. балл док-та об образовании"]
+    counter = sorted(Counter(mean_point_ege).items(), key=lambda x: x[1], reverse=True)
 
-    ##баллы егэ
-    points = data["Сумма баллов"]
-    
-    result_df = pd.DataFrame()
-    result_df["Сумма баллов"] = points
-    result_df["Ср. балл док-та об образовании"] = mean_point_att
-    result_df["Средний балл ЕГЭ"] = result_mean_point_ege
-    result = result_df.drop_duplicates().dropna().to_dict()
-    
-    return result
+    return dict(counter)
+
+def sum_scores(df):
+    data = copy.deepcopy(df)
+    data = data
+    sum_scores = df["Сумма баллов"].fillna("Не указано")
+    count = sorted(Counter(sum_scores).items(), key=lambda x: x[1], reverse=True) 
+
+    return dict(count)
+
+def mean_point_document(df):
+    data = copy.deepcopy(df)
+    mean_points_document = data["Ср. балл док-та об образовании"]
+
+    counter = sorted(Counter(mean_points_document).items(), key=lambda x: x[1], reverse=True)
+
+    return dict(counter)
 
 
 def clusters_of_students():
